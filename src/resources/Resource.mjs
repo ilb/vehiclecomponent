@@ -6,6 +6,6 @@ export default class Resource {
   }
 
   static map(rows) {
-    return rows.map(row => ({ value: row.name, key: row.id, label: row.name }))
+    return rows.map(row => ({ value: row.name, key: row.id, text: row.name }))
   }
 }

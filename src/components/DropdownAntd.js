@@ -2,12 +2,11 @@ import { connectField } from 'uniforms';
 import { SelectField } from 'uniforms-antd';
 import { useEffect, useState } from 'react';
 
-const Dropdown = ({
+const DropdownAntd = ({
   resource,
   filters = null,
   onSelect,
   onChange,
-  value,
   serverSearch = false,
   showSearch = false,
   ...params
@@ -32,10 +31,6 @@ const Dropdown = ({
 
   useEffect(() => {
     setPrevFilters({ ...filters, query });
-
-    if (!options.find((option) => option.value === value)) {
-      onChange(null);
-    }
   }, [options]);
 
   const filtersHasBeenChanged = () => {
@@ -59,12 +54,15 @@ const Dropdown = ({
           onChange(value);
           onSelect && onSelect(value);
         }}
+        onDeselect={() => {
+          onChange(null);
+        }}
         onSearch={(query) => {
           if (serverSearch) setQuery(query);
         }}
         filterOption={(input, option) => {
           return (
-            serverSearch || option.label.toLowerCase().indexOf(input.toLowerCase().trim()) !== -1
+            serverSearch || option.text.toLowerCase().indexOf(input.toLowerCase().trim()) !== -1
           );
         }}
         {...params}
@@ -74,4 +72,4 @@ const Dropdown = ({
   );
 };
 
-export default connectField(Dropdown);
+export default connectField(DropdownAntd);

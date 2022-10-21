@@ -18,6 +18,7 @@ const createValidator = (schema, additionalValidator) => {
     if (additionalValidator) {
       errors = errors.concat(additionalValidator(model));
     }
+
     if (errors.length) {
       localize.ru(errors);
       return { details: ErrorFormatter.make(errors, schema) };
