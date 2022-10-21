@@ -80,7 +80,7 @@ const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onCha
             />
           )}
           {!params.resource && (
-            <div style={{ margin: '0 10px' }}>
+            <div>
               <AutoField {...params} />
             </div>
           )}

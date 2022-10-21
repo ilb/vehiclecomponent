@@ -7,10 +7,12 @@ const DropdownAntd = ({
   filters = null,
   onSelect,
   onChange,
+  value,
   serverSearch = false,
   showSearch = false,
   ...params
 }) => {
+  const [currentValue, setCurrentValue] = useState(value);
   const [options, setOptions] = useState([]);
   const [prevFilters, setPrevFilters] = useState(null);
   const [query, setQuery] = useState(null);
@@ -31,6 +33,10 @@ const DropdownAntd = ({
 
   useEffect(() => {
     setPrevFilters({ ...filters, query });
+
+    if (!options.find((option) => option.value === value) && !currentValue) {
+      onChange(null);
+    }
   }, [options]);
 
   const filtersHasBeenChanged = () => {
@@ -54,8 +60,10 @@ const DropdownAntd = ({
           search={showSearch || serverSearch}
           error={!!params.error && params.error.message}
           selection
+          value={currentValue}
           options={options}
           onChange={(event) => {
+            setCurrentValue(event.target.value);
             onChange(event.target.value);
             onSelect && onSelect(event.target.value);
           }}
