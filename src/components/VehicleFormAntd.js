@@ -8,7 +8,7 @@ import { useState } from 'react';
 import SteerLocationResource from '../resources/SteerLocationResource.mjs';
 import TransmissionResource from '../resources/TransmissionResource.mjs';
 import { AutoField } from 'uniforms-antd';
-import { useField } from 'uniforms';
+import { connectField, useField } from 'uniforms';
 
 /**
  * @param {int} cols
@@ -28,6 +28,20 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
   const _onChange = (name, value) => {
     onChange(name, value);
   };
+
+  const AdditionField = connectField((params) => {
+    return (
+      <div style={{ margin: '0 10px' }}>
+        {params.displayType === 'text' && (
+          <>
+            <span style={{ float: 'left' }}>{params.label}:</span>
+            <span style={{ float: 'right', fontWeight: 600 }}>{params.value}</span>
+          </>
+        )}
+        {params.displayType !== 'text' && <AutoField {...params} name="" />}
+      </div>
+    );
+  });
 
   return (
     <Row>
@@ -116,11 +130,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
               {...params}
             />
           )}
-          {!params.resource && (
-            <div style={{ margin: '0 10px' }}>
-              <AutoField {...params} />
-            </div>
-          )}
+          {!params.resource && <AdditionField name={params.name} />}
         </Col>
       ))}
     </Row>

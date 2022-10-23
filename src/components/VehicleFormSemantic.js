@@ -8,7 +8,7 @@ import SteerLocationResource from '../resources/SteerLocationResource.mjs';
 import { Grid } from 'semantic-ui-react';
 import TransmissionResource from '../resources/TransmissionResource.mjs';
 import { AutoField } from 'uniforms-antd';
-import { useField } from 'uniforms';
+import { connectField, useField } from 'uniforms';
 
 const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onChange }) => {
   const { manufacturer, model, modification, body, steerLocation, transmission } = fields;
@@ -20,6 +20,20 @@ const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onCha
   const _onChange = (name, value) => {
     onChange(name, value);
   };
+
+  const AdditionField = connectField((params) => {
+    return (
+      <div>
+        {params.displayType === 'text' && (
+          <>
+            <span style={{ float: 'left' }}>{params.label}:</span>
+            <span style={{ float: 'right', fontWeight: 600 }}>{params.value}</span>
+          </>
+        )}
+        {params.displayType !== 'text' && <AutoField {...params} name="" />}
+      </div>
+    );
+  });
 
   return (
     <Grid columns={cols}>
@@ -80,9 +94,7 @@ const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onCha
             />
           )}
           {!params.resource && (
-            <div>
-              <AutoField {...params} />
-            </div>
+            <div>{!params.resource && <AdditionField name={params.name} />}</div>
           )}
         </Grid.Column>
       ))}

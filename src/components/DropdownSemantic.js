@@ -53,34 +53,42 @@ const DropdownAntd = ({
 
   return (
     <div>
-      <Form.Field>
-        {params.label && <label>{params.label}</label>}
-        <Dropdown
-          fluid
-          search={showSearch || serverSearch}
-          error={!!params.error && params.error.message}
-          selection
-          value={currentValue}
-          options={options}
-          onChange={(event) => {
-            setCurrentValue(event.target.value);
-            onChange(event.target.value);
-            onSelect && onSelect(event.target.value);
-          }}
-          onSearchChange={(query) => {
-            if (serverSearch) {
-              setQuery(query);
-            }
-          }}
-        />
-        {!!params.error && (
-          <div
-            style={{ width: '100%', textAlign: 'center' }}
-            className="ui red basic pointing label">
-            {params.error.message}
-          </div>
-        )}
-      </Form.Field>
+      {params.displayType === 'text' && (
+        <>
+          <span style={{ float: 'left' }}>{params.label}:</span>
+          <span style={{ float: 'right', fontWeight: 600 }}>{value}</span>
+        </>
+      )}
+      {params.displayType !== 'text' && (
+        <Form.Field>
+          {params.label && <label>{params.label}</label>}
+          <Dropdown
+            fluid
+            search={showSearch || serverSearch}
+            error={!!params.error && params.error.message}
+            selection
+            value={currentValue}
+            options={options}
+            onChange={(event) => {
+              setCurrentValue(event.target.value);
+              onChange(event.target.value);
+              onSelect && onSelect(event.target.value);
+            }}
+            onSearchChange={(query) => {
+              if (serverSearch) {
+                setQuery(query);
+              }
+            }}
+          />
+          {!!params.error && (
+            <div
+              style={{ width: '100%', textAlign: 'center' }}
+              className="ui red basic pointing label">
+              {params.error.message}
+            </div>
+          )}
+        </Form.Field>
+      )}
     </div>
   );
 };

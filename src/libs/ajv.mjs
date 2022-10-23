@@ -2,6 +2,8 @@ import Ajv from 'ajv';
 
 const ajv = new Ajv({ allErrors: true });
 
+ajv.addKeyword('uniforms');
+
 ajv.addFormat(
   'email',
   /(^[a-z\d.!#$%&'*+/=?^_`{|}~-]+@[a-z\d](?:[a-z\d-]{0,61}[a-z\d])?(?:\.[a-z\d](?:[a-z\d-]{0,61}[a-z\d])?)*$)|(^$)/

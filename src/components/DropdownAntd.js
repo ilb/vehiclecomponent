@@ -12,6 +12,7 @@ const DropdownAntd = ({
   showSearch = false,
   ...params
 }) => {
+  console.log(params.name, params);
   const [defaultValue] = useState(value);
   const [options, setOptions] = useState([]);
   const [prevFilters, setPrevFilters] = useState(null);
@@ -53,27 +54,35 @@ const DropdownAntd = ({
 
   return (
     <div style={{ margin: '0 10px' }}>
-      <SelectField
-        showSearch={showSearch || serverSearch}
-        options={options}
-        onChange={(value) => {
-          onChange(value);
-          onSelect && onSelect(value);
-        }}
-        onDeselect={() => {
-          onChange(null);
-        }}
-        onSearch={(query) => {
-          if (serverSearch) setQuery(query);
-        }}
-        filterOption={(input, option) => {
-          return (
-            serverSearch || option.text.toLowerCase().indexOf(input.toLowerCase().trim()) !== -1
-          );
-        }}
-        {...params}
-        name=""
-      />
+      {params.displayType === 'text' && (
+        <>
+          <span style={{ float: 'left' }}>{params.label}:</span>
+          <span style={{ float: 'right', fontWeight: 600 }}>{value}</span>
+        </>
+      )}
+      {params.displayType !== 'text' && (
+        <SelectField
+          showSearch={showSearch || serverSearch}
+          options={options}
+          onChange={(value) => {
+            onChange(value);
+            onSelect && onSelect(value);
+          }}
+          onDeselect={() => {
+            onChange(null);
+          }}
+          onSearch={(query) => {
+            if (serverSearch) setQuery(query);
+          }}
+          filterOption={(input, option) => {
+            return (
+              serverSearch || option.text.toLowerCase().indexOf(input.toLowerCase().trim()) !== -1
+            );
+          }}
+          {...params}
+          name=""
+        />
+      )}
     </div>
   );
 };

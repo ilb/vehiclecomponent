@@ -32,6 +32,7 @@ export default function App() {
             })}>
             <Typography.Title level={3}>Antd</Typography.Title>
             <VehicleFormAntd
+              cols={2}
               fields={{
                 manufacturer: { name: 'vehicleManufacturer' },
                 model: { name: 'vehicleModel' },
