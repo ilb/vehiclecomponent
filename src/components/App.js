@@ -27,7 +27,6 @@ export default function App() {
                 vehicleBody: { title: 'Кузов', type: 'string' },
                 vehicleSteerLocation: { title: 'Расположение руля', type: 'string' },
                 vehicleTransmission: { title: 'Коробка передач', type: 'string' },
-                vehicleTransmission2: { title: 'Коробка передач2', type: 'string' }
               }
             })}>
             <Typography.Title level={3}>Antd</Typography.Title>
@@ -37,35 +36,30 @@ export default function App() {
                 manufacturer: { name: 'vehicleManufacturer' },
                 model: { name: 'vehicleModel' },
                 modification: { name: 'vehicleModification' },
+                steerLocation: { name: 'vehicleSteerLocation' },
                 body: { name: 'vehicleBody' },
-                transmission: { name: 'vehicleTransmission' },
-                steerLocation: { name: 'vehicleSteerLocation' }
+                transmission: { name: 'vehicleTransmission' }
               }}
               onChange={console.log}
-              additionFields={[
-                {
-                  name: 'vehicleTransmission2'
-                }
-              ]}
             />
             <Divider />
-            <Typography.Title level={3}>Semantic</Typography.Title>
-            <VehicleFormSemantic
-              name=""
-              fields={{
-                manufacturer: { name: 'vehicleManufacturer' },
-                model: { name: 'vehicleModel' },
-                modification: { name: 'vehicleModification' },
-                body: { name: 'vehicleBody' },
-                transmission: { name: 'vehicleTransmission' },
-                steerLocation: { name: 'vehicleSteerLocation' }
-              }}
-              additionFields={[
-                {
-                  name: 'vehicleTransmission2'
-                }
-              ]}
-            />
+            {/*<Typography.Title level={3}>Semantic</Typography.Title>*/}
+            {/*<VehicleFormSemantic*/}
+            {/*  name=""*/}
+            {/*  fields={{*/}
+            {/*    manufacturer: { name: 'vehicleManufacturer' },*/}
+            {/*    model: { name: 'vehicleModel' },*/}
+            {/*    modification: { name: 'vehicleModification' },*/}
+            {/*    body: { name: 'vehicleBody' },*/}
+            {/*    transmission: { name: 'vehicleTransmission' },*/}
+            {/*    steerLocation: { name: 'vehicleSteerLocation' }*/}
+            {/*  }}*/}
+            {/*  additionFields={[*/}
+            {/*    {*/}
+            {/*      name: 'vehicleTransmission2'*/}
+            {/*    }*/}
+            {/*  ]}*/}
+            {/*/>*/}
             <SubmitField />
           </AutoForm>
         </div>

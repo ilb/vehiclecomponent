@@ -8,7 +8,7 @@ import { useState } from 'react';
 import SteerLocationResource from '../resources/SteerLocationResource.mjs';
 import TransmissionResource from '../resources/TransmissionResource.mjs';
 import { AutoField } from 'uniforms-antd';
-import { connectField, useField } from 'uniforms';
+import { connectField, useField, useForm } from 'uniforms';
 
 /**
  * @param {int} cols
@@ -22,6 +22,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
   const { manufacturer, model, modification, body, transmission, steerLocation } = fields;
   const [manufacturerField] = useField(fields.manufacturer.name, {});
   const [modelField] = useField(fields.model.name, {});
+  const form = useForm();
   const [manufacturerName, setManufacturerName] = useState(manufacturerField.value || null);
   const [modelName, setModelName] = useState(modelField.value || null);
 
@@ -78,10 +79,23 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
             resource={ModificationResource.get}
             filters={{ modelName }}
             showSearch
-            onSelect={(value) => {
+            onSelect={(value, { data }) => {
+              form.onChange(body.name, data.vehicleBody.name);
+              form.onChange(transmission.name, data.vehicleTransmission.name);
               _onChange(modification.name, value);
             }}
             {...modification}
+          />
+        </Col>
+      )}
+      {steerLocation && (
+        <Col span={24 / cols}>
+          <Dropdown
+            resource={SteerLocationResource.get}
+            onSelect={(value) => {
+              _onChange(steerLocation.name, value);
+            }}
+            {...steerLocation}
           />
         </Col>
       )}
@@ -106,17 +120,6 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
               _onChange(transmission.name, value);
             }}
             {...transmission}
-          />
-        </Col>
-      )}
-      {steerLocation && (
-        <Col span={24 / cols}>
-          <Dropdown
-            resource={SteerLocationResource.get}
-            onSelect={(value) => {
-              _onChange(steerLocation.name, value);
-            }}
-            {...steerLocation}
           />
         </Col>
       )}

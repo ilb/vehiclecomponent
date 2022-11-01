@@ -6,6 +6,15 @@ export default class Resource {
   }
 
   static map(rows) {
-    return rows.map(row => ({ value: row.name, key: row.id, text: row.name }))
+    return rows.map(row => {
+      const { id, name, ...data } = row;
+      return {
+        id,
+        key: id,
+        value: name,
+        text: name,
+        data,
+      };
+    })
   }
 }

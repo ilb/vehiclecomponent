@@ -5,30 +5,31 @@ import { useEffect, useState } from 'react';
 const DropdownAntd = ({
   resource,
   filters = null,
+  clientFilter = null,
   onSelect,
   onChange,
+  onSetOptions,
   value,
   serverSearch = false,
   showSearch = false,
   ...params
 }) => {
-  console.log(params.name, params);
   const [defaultValue] = useState(value);
   const [options, setOptions] = useState([]);
   const [prevFilters, setPrevFilters] = useState(null);
-  const [query, setQuery] = useState(null);
+  const [query, setQuery] = useState('');
 
-  useEffect(async () => {
+  useEffect(() => {
     if (resource && !filters) {
-      setOptions(await getOptions(filters));
+      updateOptions().catch(console.error);
     }
   }, [resource]);
 
-  useEffect(async () => {
+  useEffect(() => {
     filters = { ...filters, query };
 
     if (filters && filtersHasBeenChanged() && filtersIsApplied()) {
-      setOptions(await getOptions(filters));
+      updateOptions().catch(console.error);
     }
   }, [filters, query]);
 
@@ -52,6 +53,17 @@ const DropdownAntd = ({
     return resource(filters);
   };
 
+  const updateOptions = async () => {
+    getOptions(filters).then((options) => {
+      setOptions(options);
+      onSetOptions && onSetOptions(options);
+    });
+  };
+
+  const filterByInput = (input, option) => {
+    return option.text.toLowerCase().indexOf(input.toLowerCase().trim()) !== -1;
+  };
+
   return (
     <div style={{ margin: '0 10px' }}>
       {params.displayType === 'text' && (
@@ -66,18 +78,24 @@ const DropdownAntd = ({
           options={options}
           onChange={(value) => {
             onChange(value);
-            onSelect && onSelect(value);
+            onSelect &&
+              onSelect(
+                value,
+                options.find((option) => option.value === value)
+              );
           }}
           onDeselect={() => {
             onChange(null);
           }}
           onSearch={(query) => {
-            if (serverSearch) setQuery(query);
+            if (serverSearch) setQuery(query || '');
           }}
           filterOption={(input, option) => {
-            return (
-              serverSearch || option.text.toLowerCase().indexOf(input.toLowerCase().trim()) !== -1
-            );
+            if (serverSearch) {
+              return true;
+            }
+
+            return filterByInput(input, option) && (clientFilter ? clientFilter() : true);
           }}
           {...params}
           name=""
