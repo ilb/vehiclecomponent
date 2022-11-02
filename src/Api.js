@@ -12,39 +12,6 @@ export default class Api {
     return this.execute(url, 'GET', data);
   }
 
-  /**
-   * post-запрос
-   *
-   * @param url
-   * @param data
-   * @returns {Promise<*>}
-   */
-  static async post(url, data = {}) {
-    return this.execute(url, 'POST', data);
-  }
-
-  /**
-   * put-запрос
-   *
-   * @param url
-   * @param data
-   * @returns {Promise<*>}
-   */
-  static async put(url, data = {}) {
-    return this.execute(url, 'PUT', data);
-  }
-
-  /**
-   * delete-запрос
-   *
-   * @param url
-   * @param data
-   * @returns {Promise<*>}
-   */
-  static async delete(url, data = {}) {
-    return this.execute(url, 'DELETE', data);
-  }
-
   static async execute(url, method, data) {
     const link = this.prepareUrl(url, method, data);
     const params = this.prepareParams(link, method, data);
@@ -54,6 +21,8 @@ export default class Api {
   }
 
   static prepareUrl(url, method, data) {
+    url = process.env.API_PATH + url;
+
     if (method === 'GET') {
       url = `${url}?${new URLSearchParams(data).toString()}`;
     }
