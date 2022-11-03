@@ -27,7 +27,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
   const [modelName, setModelName] = useState(modelField.value || null);
 
   const _onChange = (name, value) => {
-    onChange(name, value);
+    onChange && onChange(name, value);
   };
 
   const AdditionField = connectField((params) => {
