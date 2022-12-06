@@ -65,7 +65,7 @@ const DropdownAntd = ({
   };
 
   return (
-    <div style={{ margin: '0 10px' }}>
+    <div className="vehiclecomponent-dropdown">
       {params.displayType === 'text' && (
         <>
           <span style={{ float: 'left' }}>{params.label}:</span>

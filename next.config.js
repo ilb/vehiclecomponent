@@ -9,8 +9,8 @@ module.exports = {
   rewrites() {
     return [
       {
-        source: '/autocatalogs/:path*',
-        destination: 'http://127.0.0.1:3000/autocatalogs/api/:path*'
+        source: '/api/autocatalogs/:path*',
+        destination: 'https://bb.avclick.ru/autocatalogs/api/:path*'
       }
     ];
   }
