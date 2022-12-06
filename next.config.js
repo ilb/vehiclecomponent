@@ -10,7 +10,7 @@ module.exports = {
     return [
       {
         source: '/api/autocatalogs/:path*',
-        destination: `${process.env[‘apps.autocatalogs.ws’]}/autocatalogs/api/:path*`
+        destination: `${process.env['apps.autocatalogs.ws']}/autocatalogs/api/:path*`
       }
     ];
   }
