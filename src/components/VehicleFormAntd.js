@@ -1,5 +1,6 @@
 import Dropdown from './DropdownAntd';
-import { Col, Row } from 'antd';
+import Col from 'antd/lib/grid/col';
+import Row from 'antd/lib/grid/row';
 import ManufacturerResource from '../resources/ManufacturerResource.mjs';
 import ModelResource from '../resources/ModelResource.mjs';
 import ModificationResource from '../resources/ModificationResource.mjs';
