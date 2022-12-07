@@ -33,7 +33,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
 
   const AdditionField = connectField((params) => {
     return (
-      <div style={{ margin: '0 10px' }}>
+      <div className="vehiclecomponent-input">
         {params.displayType === 'text' && (
           <>
             <span style={{ float: 'left' }}>{params.label}:</span>
