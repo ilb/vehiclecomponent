@@ -9,7 +9,7 @@ import { useState } from 'react';
 import SteerLocationResource from '../resources/SteerLocationResource.mjs';
 import TransmissionResource from '../resources/TransmissionResource.mjs';
 import { AutoField } from 'uniforms-antd';
-import { connectField, useField, useForm } from 'uniforms';
+import { useField, useForm } from 'uniforms';
 
 /**
  * @param {int} cols
@@ -30,20 +30,6 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
   const _onChange = (name, value) => {
     onChange && onChange(name, value);
   };
-
-  const AdditionField = connectField((params) => {
-    return (
-      <div className="vehiclecomponent-input">
-        {params.displayType === 'text' && (
-          <>
-            <span style={{ float: 'left' }}>{params.label}:</span>
-            <span style={{ float: 'right', fontWeight: 600 }}>{params.value}</span>
-          </>
-        )}
-        {params.displayType !== 'text' && <AutoField {...params} name="" />}
-      </div>
-    );
-  });
 
   return (
     <Row>
@@ -81,7 +67,6 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
             filters={{ modelName }}
             showSearch
             onSelect={(value, { data }) => {
-              body && form.onChange(body.name, data.vehicleBody.name);
               transmission && form.onChange(transmission.name, data.vehicleTransmission.name);
               _onChange(modification.name, value);
             }}
@@ -134,7 +119,11 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
               {...params}
             />
           )}
-          {!params.resource && <AdditionField name={params.name} />}
+          {!params.resource && (
+            <div className="vehiclecomponent-input">
+              <AutoField {...params} />
+            </div>
+          )}
         </Col>
       ))}
     </Row>
