@@ -30,36 +30,31 @@ export default function App() {
               }
             })}>
             <Typography.Title level={3}>Antd</Typography.Title>
-            <VehicleFormAntd
-              cols={2}
-              fields={{
-                manufacturer: { name: 'vehicleManufacturer' },
-                model: { name: 'vehicleModel' },
-                modification: { name: 'vehicleModification' },
-                steerLocation: { name: 'vehicleSteerLocation' },
-                body: { name: 'vehicleBody' },
-                transmission: { name: 'vehicleTransmission' }
-              }}
-              onChange={console.log}
-            />
-            <Divider />
-            {/*<Typography.Title level={3}>Semantic</Typography.Title>*/}
-            {/*<VehicleFormSemantic*/}
-            {/*  name=""*/}
+            {/*<VehicleFormAntd*/}
+            {/*  cols={2}*/}
             {/*  fields={{*/}
             {/*    manufacturer: { name: 'vehicleManufacturer' },*/}
             {/*    model: { name: 'vehicleModel' },*/}
             {/*    modification: { name: 'vehicleModification' },*/}
+            {/*    steerLocation: { name: 'vehicleSteerLocation' },*/}
             {/*    body: { name: 'vehicleBody' },*/}
-            {/*    transmission: { name: 'vehicleTransmission' },*/}
-            {/*    steerLocation: { name: 'vehicleSteerLocation' }*/}
+            {/*    transmission: { name: 'vehicleTransmission' }*/}
             {/*  }}*/}
-            {/*  additionFields={[*/}
-            {/*    {*/}
-            {/*      name: 'vehicleTransmission2'*/}
-            {/*    }*/}
-            {/*  ]}*/}
+            {/*  onChange={console.log}*/}
             {/*/>*/}
+            <Divider />
+            <Typography.Title level={3}>Semantic</Typography.Title>
+            <VehicleFormSemantic
+              name=""
+              fields={{
+                manufacturer: { name: 'vehicleManufacturer' },
+                model: { name: 'vehicleModel' },
+                modification: { name: 'vehicleModification' },
+                body: { name: 'vehicleBody' },
+                transmission: { name: 'vehicleTransmission' },
+                steerLocation: { name: 'vehicleSteerLocation' }
+              }}
+            />
             <SubmitField />
           </AutoForm>
         </div>

@@ -7,7 +7,7 @@ import BodyResource from '../resources/BodyResource.mjs';
 import SteerLocationResource from '../resources/SteerLocationResource.mjs';
 import { Grid } from 'semantic-ui-react';
 import TransmissionResource from '../resources/TransmissionResource.mjs';
-import { AutoField } from 'uniforms-antd';
+import { AutoField } from 'uniforms-semantic';
 import { connectField, useField } from 'uniforms';
 
 const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onChange }) => {

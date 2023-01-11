@@ -15,7 +15,7 @@ const DropdownAntd = ({
   const [currentValue, setCurrentValue] = useState(value);
   const [options, setOptions] = useState([]);
   const [prevFilters, setPrevFilters] = useState(null);
-  const [query, setQuery] = useState(null);
+  const [query, setQuery] = useState('');
 
   useEffect(async () => {
     if (resource && !filters) {
@@ -69,10 +69,10 @@ const DropdownAntd = ({
             selection
             value={currentValue}
             options={options}
-            onChange={(event) => {
-              setCurrentValue(event.target.value);
-              onChange(event.target.value);
-              onSelect && onSelect(event.target.value);
+            onChange={(event, data) => {
+              setCurrentValue(data.value);
+              onChange(data.value);
+              onSelect && onSelect(data.value);
             }}
             onSearchChange={(query) => {
               if (serverSearch) {
