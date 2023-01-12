@@ -26,8 +26,8 @@ const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onCha
       <div>
         {params.displayType === 'text' && (
           <>
-            <span style={{ float: 'left' }}>{params.label}:</span>
-            <span style={{ float: 'right', fontWeight: 600 }}>{params.value}</span>
+            <span className="addition-field-label" style={{ float: 'left' }}>{params.label}:</span>
+            <span className="addition-field-value" style={{ float: 'right', fontWeight: 600 }}>{params.value}</span>
           </>
         )}
         {params.displayType !== 'text' && <AutoField {...params} name="" />}

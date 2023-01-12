@@ -55,8 +55,8 @@ const DropdownAntd = ({
     <div>
       {params.displayType === 'text' && (
         <>
-          <span style={{ float: 'left' }}>{params.label}:</span>
-          <span style={{ float: 'right', fontWeight: 600 }}>{value}</span>
+          <span className="addition-field-label" style={{ float: 'left' }}>{params.label}:</span>
+          <span className="addition-field-value" style={{ float: 'right', fontWeight: 600 }}>{value}</span>
         </>
       )}
       {params.displayType !== 'text' && (
