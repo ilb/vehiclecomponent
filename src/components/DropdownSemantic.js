@@ -56,14 +56,19 @@ const DropdownSemantic = ({
     <div>
       {params.displayType === 'text' && (
         <>
-          <span className="addition-field-label" style={{ float: 'left' }}>{params.label}:</span>
-          <span className="addition-field-value" style={{ float: 'right', fontWeight: 600 }}>{value}</span>
+          <span className="addition-field-label" style={{ float: 'left' }}>
+            {params.label}:
+          </span>
+          <span className="addition-field-value" style={{ float: 'right', fontWeight: 600 }}>
+            {value}
+          </span>
         </>
       )}
       {params.displayType !== 'text' && (
         <Form.Field>
           {params.label && <label>{params.label}</label>}
           <Dropdown
+            id={params.name}
             fluid
             search={showSearch || serverSearch}
             error={!!params.error && params.error.message}
