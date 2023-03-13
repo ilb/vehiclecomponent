@@ -12,6 +12,7 @@ const DropdownAntd = ({
   value,
   serverSearch = false,
   showSearch = false,
+  autocatalogsUrl,
   ...params
 }) => {
   const [defaultValue] = useState(value);
@@ -50,7 +51,7 @@ const DropdownAntd = ({
   };
 
   const getOptions = async (filters) => {
-    return resource(filters);
+    return resource(filters, autocatalogsUrl);
   };
 
   const updateOptions = async () => {

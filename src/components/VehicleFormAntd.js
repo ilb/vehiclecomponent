@@ -16,10 +16,11 @@ import { useField, useForm } from 'uniforms';
  * @param {object} fields
  * @param {array} additionFields
  * @param onChange
+ * @param {{autocatalogsUrl}} params
  * @return {JSX.Element}
  * @constructor
  */
-const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange }) => {
+const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange, params = {} }) => {
   const { manufacturer, model, modification, body, transmission, steerLocation } = fields;
   const [manufacturerField] = useField(fields.manufacturer.name, {});
   const [modelField] = useField(fields.model.name, {});
@@ -36,6 +37,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
       {manufacturer && (
         <Col span={24 / cols}>
           <Dropdown
+            autocatalogsUrl={params.autocatalogsUrl}
             showSearch
             onSelect={(value) => {
               setManufacturerName(value);
@@ -49,6 +51,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
       {model && (
         <Col span={24 / cols}>
           <Dropdown
+            autocatalogsUrl={params.autocatalogsUrl}
             showSearch
             resource={ModelResource.get}
             filters={{ manufacturerName }}
@@ -63,6 +66,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
       {modification && (
         <Col span={24 / cols}>
           <Dropdown
+            autocatalogsUrl={params.autocatalogsUrl}
             resource={ModificationResource.get}
             filters={{ modelName }}
             showSearch
@@ -77,6 +81,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
       {steerLocation && (
         <Col span={24 / cols}>
           <Dropdown
+            autocatalogsUrl={params.autocatalogsUrl}
             resource={SteerLocationResource.get}
             onSelect={(value) => {
               _onChange(steerLocation.name, value);
@@ -88,6 +93,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
       {body && (
         <Col span={24 / cols}>
           <Dropdown
+            autocatalogsUrl={params.autocatalogsUrl}
             resource={BodyResource.get}
             filters={{ modelName }}
             onSelect={(value) => {
@@ -100,6 +106,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
       {transmission && (
         <Col span={24 / cols}>
           <Dropdown
+            autocatalogsUrl={params.autocatalogsUrl}
             resource={TransmissionResource.get}
             filters={{ modelName }}
             onSelect={(value) => {
@@ -113,6 +120,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange 
         <Col key={key} span={24 / cols}>
           {params.resource && (
             <Dropdown
+              autocatalogsUrl={params.autocatalogsUrl}
               onSelect={(value) => {
                 _onChange(params.name, value);
               }}

@@ -2,7 +2,7 @@ import { connectField } from 'uniforms';
 import { useEffect, useState } from 'react';
 import { Dropdown, Form } from 'semantic-ui-react';
 
-const DropdownAntd = ({
+const DropdownSemantic = ({
   resource,
   filters = null,
   onSelect,
@@ -10,6 +10,7 @@ const DropdownAntd = ({
   value,
   serverSearch = false,
   showSearch = false,
+  autocatalogsUrl,
   ...params
 }) => {
   const [currentValue, setCurrentValue] = useState(value);
@@ -48,7 +49,7 @@ const DropdownAntd = ({
   };
 
   const getOptions = async (filters) => {
-    return resource(filters);
+    return resource(filters, autocatalogsUrl);
   };
 
   return (
@@ -93,4 +94,4 @@ const DropdownAntd = ({
   );
 };
 
-export default connectField(DropdownAntd);
+export default connectField(DropdownSemantic);

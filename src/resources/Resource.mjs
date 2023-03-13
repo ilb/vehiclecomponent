@@ -1,7 +1,7 @@
 export default class Resource {
   path = ''
 
-  static async get() {
+  static async get(filters, autocatalogsUrl) {
 
   }
 

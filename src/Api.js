@@ -21,7 +21,10 @@ export default class Api {
   }
 
   static prepareUrl(url, method, data) {
-    url = process.env.API_PATH + url;
+    if (!this.isValidHttpUrl(url)) {
+      // если часть урлы, то к ней добавляется API_PATH, елси полная то используется как есть
+      url = process.env.API_PATH + url;
+    }
 
     if (method === 'GET') {
       url = `${url}?${new URLSearchParams(data).toString()}`;
@@ -50,5 +53,15 @@ export default class Api {
     }
 
     return { ok: res.ok, body };
+  }
+
+  static async isValidHttpUrl(string) {
+    let url;
+    try {
+      url = new URL(string);
+    } catch (_) {
+      return false;
+    }
+    return url.protocol === 'http:' || url.protocol === 'https:';
   }
 }

@@ -30,21 +30,27 @@ export default function App() {
               }
             })}>
             <Typography.Title level={3}>Antd</Typography.Title>
-            {/*<VehicleFormAntd*/}
-            {/*  cols={2}*/}
-            {/*  fields={{*/}
-            {/*    manufacturer: { name: 'vehicleManufacturer' },*/}
-            {/*    model: { name: 'vehicleModel' },*/}
-            {/*    modification: { name: 'vehicleModification' },*/}
-            {/*    steerLocation: { name: 'vehicleSteerLocation' },*/}
-            {/*    body: { name: 'vehicleBody' },*/}
-            {/*    transmission: { name: 'vehicleTransmission' }*/}
-            {/*  }}*/}
-            {/*  onChange={console.log}*/}
-            {/*/>*/}
+            <VehicleFormAntd
+              params={{
+                autocatalogsUrl: 'https://bb.avclick.ru/autocatalogs'
+              }}
+              cols={2}
+              fields={{
+                manufacturer: { name: 'vehicleManufacturer' },
+                model: { name: 'vehicleModel' },
+                modification: { name: 'vehicleModification' },
+                steerLocation: { name: 'vehicleSteerLocation' },
+                body: { name: 'vehicleBody' },
+                transmission: { name: 'vehicleTransmission' }
+              }}
+              onChange={console.log}
+            />
             <Divider />
             <Typography.Title level={3}>Semantic</Typography.Title>
             <VehicleFormSemantic
+              params={{
+                autocatalogsUrl: 'https://bb.avclick.ru/autocatalogs'
+              }}
               name=""
               fields={{
                 manufacturer: { name: 'vehicleManufacturer' },
