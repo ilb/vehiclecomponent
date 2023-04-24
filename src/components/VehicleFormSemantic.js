@@ -82,7 +82,9 @@ const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onCha
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             resource={ModificationResource.get}
-            filters={{ modelName, bodyName, vehicleYear: params.vehicleYear }}
+            filters={params.vehicleYear
+             ? { modelName, bodyName, vehicleYear: params.vehicleYear }
+             : { modelName, bodyName }}
             showSearch
             {...modification}
           />

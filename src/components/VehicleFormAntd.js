@@ -84,7 +84,9 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             resource={ModificationResource.get}
-            filters={{ modelName, bodyName, vehicleYear: params.vehicleYear }}
+            filters={params.vehicleYear
+             ? { modelName, bodyName, vehicleYear: params.vehicleYear }
+             : { modelName, bodyName }}
             showSearch
             onSelect={(value, { data }) => {
               transmission && form.onChange(transmission.name, data.vehicleTransmission.name);
