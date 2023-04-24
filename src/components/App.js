@@ -32,11 +32,11 @@ export default function App() {
                 vehicleYear: { title: 'Год выпуска', type: 'string' }
               }
             })}>
-            <Typography.Title level={3}>Antd</Typography.Title>
             <TextField name="vehicleYear" step={1} min={1900} max={2100} controls={false} value={vehicleYear} onChangeCapture={(event) => {
               const vehicleYear = event.target.value;
               setVehicleYear(vehicleYear);
             }}/>
+            <Typography.Title level={3}>Antd</Typography.Title>
             <VehicleFormAntd
               params={{
                 autocatalogsUrl: 'https://bb.avclick.ru/autocatalogs',
