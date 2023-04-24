@@ -4,12 +4,14 @@ import createSchemaBridge from '../libs/uniforms-bridge.mjs';
 import { VehicleForm as VehicleFormSemantic } from '../semantic';
 import { VehicleForm as VehicleFormAntd } from '../antd';
 import { useState } from 'react';
+import { TextField } from 'uniforms-antd';
 
 export default function App() {
   const [model] = useState({
     vehicleManufacturer: 'Acura',
     vehicleTransmission2: '123'
   });
+  const [vehicleYear, setVehicleYear] = useState()
 
   return (
     <Layout style={{ height: '100vh', alignItems: 'center' }} className="layout">
@@ -27,12 +29,18 @@ export default function App() {
                 vehicleBody: { title: 'Кузов', type: 'string' },
                 vehicleSteerLocation: { title: 'Расположение руля', type: 'string' },
                 vehicleTransmission: { title: 'Коробка передач', type: 'string' },
+                vehicleYear: { title: 'Год выпуска', type: 'string' }
               }
             })}>
             <Typography.Title level={3}>Antd</Typography.Title>
+            <TextField name="vehicleYear" step={1} min={1900} max={2100} controls={false} value={vehicleYear} onChangeCapture={(event) => {
+              const vehicleYear = event.target.value;
+              setVehicleYear(vehicleYear);
+            }}/>
             <VehicleFormAntd
               params={{
-                autocatalogsUrl: 'https://bb.avclick.ru/autocatalogs'
+                autocatalogsUrl: 'https://bb.avclick.ru/autocatalogs',
+                vehicleYear: vehicleYear
               }}
               cols={2}
               fields={{
@@ -49,7 +57,8 @@ export default function App() {
             <Typography.Title level={3}>Semantic</Typography.Title>
             <VehicleFormSemantic
               params={{
-                autocatalogsUrl: 'https://bb.avclick.ru/autocatalogs'
+                autocatalogsUrl: 'https://bb.avclick.ru/autocatalogs',
+                vehicleYear: vehicleYear
               }}
               name=""
               fields={{
