@@ -24,9 +24,11 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
   const { manufacturer, model, modification, body, transmission, steerLocation } = fields;
   const [manufacturerField] = useField(fields.manufacturer.name, {});
   const [modelField] = useField(fields.model.name, {});
+  const [bodyField] = useField(fields.model.body, { value: null });
   const form = useForm();
   const [manufacturerName, setManufacturerName] = useState(manufacturerField.value || null);
   const [modelName, setModelName] = useState(modelField.value || null);
+  const [bodyName, setBodyName] = useState(bodyField.value || null);
 
   const _onChange = (name, value) => {
     onChange && onChange(name, value);
@@ -63,12 +65,26 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
           />
         </Col>
       )}
+      {body && (
+        <Col span={24 / cols}>
+          <Dropdown
+            autocatalogsUrl={params.autocatalogsUrl}
+            resource={BodyResource.get}
+            filters={{ modelName }}
+            onSelect={(value) => {
+              setBodyName(value);
+              _onChange(body.name, value);
+            }}
+            {...body}
+          />
+        </Col>
+      )}
       {modification && (
         <Col span={24 / cols}>
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             resource={ModificationResource.get}
-            filters={{ modelName }}
+            filters={{ modelName, bodyName, ...params.modification.filters }}
             showSearch
             onSelect={(value, { data }) => {
               transmission && form.onChange(transmission.name, data.vehicleTransmission.name);
@@ -87,19 +103,6 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
               _onChange(steerLocation.name, value);
             }}
             {...steerLocation}
-          />
-        </Col>
-      )}
-      {body && (
-        <Col span={24 / cols}>
-          <Dropdown
-            autocatalogsUrl={params.autocatalogsUrl}
-            resource={BodyResource.get}
-            filters={{ modelName }}
-            onSelect={(value) => {
-              _onChange(body.name, value);
-            }}
-            {...body}
           />
         </Col>
       )}

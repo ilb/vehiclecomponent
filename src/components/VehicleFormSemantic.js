@@ -14,8 +14,10 @@ const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onCha
   const { manufacturer, model, modification, body, steerLocation, transmission } = fields;
   const [manufacturerField] = useField(fields.manufacturer.name, {});
   const [modelField] = useField(fields.model.name, {});
+  const [bodyField] = useField(fields.model.body, {})
   const [manufacturerName, setManufacturerName] = useState(manufacturerField.value || null);
   const [modelName, setModelName] = useState(modelField.value || null);
+  const [bodyName, setBodyName] = useState(bodyField.value || null);
 
   const _onChange = (name, value) => {
     onChange(name, value);
@@ -64,24 +66,27 @@ const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onCha
           />
         </Grid.Column>
       )}
-      {modification && (
-        <Grid.Column>
-          <Dropdown
-            autocatalogsUrl={params.autocatalogsUrl}
-            resource={ModificationResource.get}
-            filters={{ modelName }}
-            showSearch
-            {...modification}
-          />
-        </Grid.Column>
-      )}
       {body && (
         <Grid.Column>
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             resource={BodyResource.get}
             filters={{ modelName }}
+            onSelect={setBodyName}
             {...body}
+          />
+        </Grid.Column>
+      )}
+      {modification && (
+        <Grid.Column>
+          <Dropdown
+            autocatalogsUrl={params.autocatalogsUrl}
+            resource={ModificationResource.get}
+            filters={params.vehicleYear
+             ? { modelName, bodyName, vehicleYear: params.vehicleYear }
+             : { modelName, bodyName }}
+            showSearch
+            {...modification}
           />
         </Grid.Column>
       )}
