@@ -46,7 +46,7 @@ export default function App() {
             <Typography.Title level={3}>Antd</Typography.Title>
             <VehicleFormAntd
               params={{
-                autocatalogsUrl: 'https://bb.avclick.ru/autocatalogs',
+                autocatalogsUrl: 'https://bb.avclick.ru/autocatalogs/api',
                 modification: {
                   ...(vehicleYear && { filters: { vehicleYear } })
                 }
@@ -66,7 +66,7 @@ export default function App() {
             <Typography.Title level={3}>Semantic</Typography.Title>
             <VehicleFormSemantic
               params={{
-                autocatalogsUrl: 'https://bb.avclick.ru/autocatalogs',
+                autocatalogsUrl: 'https://bb.avclick.ru/autocatalogs/api',
                 vehicleYear: vehicleYear
               }}
               name=""
