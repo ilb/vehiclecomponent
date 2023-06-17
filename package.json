@@ -1,6 +1,6 @@
 {
   "name": "@ilb/vehiclecomponent",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "",
   "main": "src/",
   "scripts": {
@@ -42,6 +42,6 @@
     "semantic-ui-css": "^2.5.0"
   },
   "dependencies": {
-    "isomorphic-fetch": "^3.0.0"
+    "cross-fetch": "^3.1.6"
   }
 }
