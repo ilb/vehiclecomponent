@@ -10,11 +10,11 @@ import TransmissionResource from '../resources/TransmissionResource.mjs';
 import { AutoField } from 'uniforms-semantic';
 import { connectField, useField } from 'uniforms';
 
-const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onChange, params }) => {
+const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onChange, params = {} }) => {
   const { manufacturer, model, modification, body, steerLocation, transmission } = fields;
   const [manufacturerField] = useField(fields.manufacturer.name, {});
   const [modelField] = useField(fields.model.name, {});
-  const [bodyField] = useField(fields.model.body, {})
+  const [bodyField] = useField(fields.model.body, { value: null });
   const [manufacturerName, setManufacturerName] = useState(manufacturerField.value || null);
   const [modelName, setModelName] = useState(modelField.value || null);
   const [bodyName, setBodyName] = useState(bodyField.value || null);
@@ -82,9 +82,7 @@ const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onCha
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             resource={ModificationResource.get}
-            filters={params.vehicleYear
-             ? { modelName, bodyName, vehicleYear: params.vehicleYear }
-             : { modelName, bodyName }}
+            filters={{ modelName, ...(bodyName && { bodyName }), ...params.modification.filters }}
             showSearch
             {...modification}
           />

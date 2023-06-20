@@ -10,7 +10,7 @@ export default function App() {
     vehicleManufacturer: 'Acura',
     vehicleTransmission2: '123'
   });
-  const [vehicleYear, setVehicleYear] = useState();
+  const [year, setVehicleYear] = useState();
 
   return (
     <Layout style={{ height: '100vh', alignItems: 'center' }} className="layout">
@@ -37,10 +37,10 @@ export default function App() {
               min={1900}
               max={2100}
               controls={false}
-              value={vehicleYear}
+              value={year}
               onChangeCapture={(event) => {
-                const vehicleYear = event.target.value;
-                setVehicleYear(vehicleYear);
+                const year = event.target.value;
+                setVehicleYear(year);
               }}
             />
             <Typography.Title level={3}>Antd</Typography.Title>
@@ -48,7 +48,7 @@ export default function App() {
               params={{
                 autocatalogsUrl: 'https://bb.avclick.ru/autocatalogs/api',
                 modification: {
-                  ...(vehicleYear && { filters: { vehicleYear } })
+                  ...(year && { filters: { year } })
                 }
               }}
               cols={2}
@@ -67,7 +67,9 @@ export default function App() {
             <VehicleFormSemantic
               params={{
                 autocatalogsUrl: 'https://bb.avclick.ru/autocatalogs/api',
-                vehicleYear: vehicleYear
+                modification: {
+                  ...(year && { filters: { year } })
+                }
               }}
               name=""
               fields={{
