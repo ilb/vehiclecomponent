@@ -67,7 +67,9 @@ export default function App() {
             <VehicleFormSemantic
               params={{
                 autocatalogsUrl: 'https://bb.avclick.ru/autocatalogs/api',
-                vehicleYear: vehicleYear
+                modification: {
+                  ...(vehicleYear && { filters: { vehicleYear } })
+                }
               }}
               name=""
               fields={{
