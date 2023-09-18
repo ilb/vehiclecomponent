@@ -7,12 +7,12 @@ export default class Resource {
 
   static map(rows) {
     return rows.map(row => {
-      const { id, name, ...data } = row;
+      const { id, name, code, ...data } = row;
       return {
         id,
         key: id,
-        value: name,
-        text: name,
+        label: name,
+        value: code,
         data,
       };
     })

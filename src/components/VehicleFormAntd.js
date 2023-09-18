@@ -45,7 +45,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
               setManufacturerName(value);
               _onChange(manufacturer.name, value);
             }}
-            resource={ManufacturerResource.get}
+            resource={manufacturer.resource || ManufacturerResource.get}
             {...manufacturer}
           />
         </Col>
@@ -55,7 +55,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             showSearch
-            resource={ModelResource.get}
+            resource={model.resource || ModelResource.get}
             filters={{ manufacturerName }}
             onSelect={(value) => {
               setModelName(value);
@@ -69,7 +69,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
         <Col span={24 / cols}>
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
-            resource={BodyResource.get}
+            resource={body.resource || BodyResource.get}
             filters={{ modelName }}
             onSelect={(value) => {
               setBodyName(value);
@@ -83,7 +83,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
         <Col span={24 / cols}>
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
-            resource={ModificationResource.get}
+            resource={modification.resource || ModificationResource.get}
             filters={{ modelName, ...(bodyName && { bodyName }), ...params.modification.filters }}
             showSearch
             onSelect={(value, { data }) => {
@@ -98,7 +98,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
         <Col span={24 / cols}>
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
-            resource={SteerLocationResource.get}
+            resource={steerLocation.resource || SteerLocationResource.get}
             onSelect={(value) => {
               _onChange(steerLocation.name, value);
             }}
@@ -110,7 +110,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
         <Col span={24 / cols}>
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
-            resource={TransmissionResource.get}
+            resource={transmission.resource || TransmissionResource.get}
             filters={{ modelName }}
             onSelect={(value) => {
               _onChange(transmission.name, value);
@@ -124,6 +124,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
           {params.resource && (
             <Dropdown
               autocatalogsUrl={params.autocatalogsUrl}
+              resource={params.resource}
               onSelect={(value) => {
                 _onChange(params.name, value);
               }}
