@@ -12,6 +12,7 @@ export default class Resource {
         id,
         key: id,
         label: name,
+        text: name,
         value: code,
         data,
       };
