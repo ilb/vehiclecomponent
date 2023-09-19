@@ -41,8 +41,8 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             showSearch
-            onSelect={(value) => {
-              setManufacturerName(value);
+            onSelect={(value, { text }) => {
+              setManufacturerName(text);
               _onChange(manufacturer.name, value);
             }}
             resource={manufacturer.resource || ManufacturerResource.get}
@@ -57,8 +57,8 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
             showSearch
             resource={model.resource || ModelResource.get}
             filters={{ manufacturerName }}
-            onSelect={(value) => {
-              setModelName(value);
+            onSelect={(value, { text }) => {
+              setModelName(text);
               _onChange(model.name, value);
             }}
             {...model}
@@ -71,8 +71,8 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
             autocatalogsUrl={params.autocatalogsUrl}
             resource={body.resource || BodyResource.get}
             filters={{ modelName }}
-            onSelect={(value) => {
-              setBodyName(value);
+            onSelect={(value, { text }) => {
+              setBodyName(text);
               _onChange(body.name, value);
             }}
             {...body}

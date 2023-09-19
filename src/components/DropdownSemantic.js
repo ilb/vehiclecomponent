@@ -78,7 +78,8 @@ const DropdownSemantic = ({
             onChange={(event, data) => {
               setCurrentValue(data.value);
               onChange(data.value);
-              onSelect && onSelect(data.value);
+              onSelect &&
+                onSelect(data.options.find((option) => option.value === data.value).label);
             }}
             onSearchChange={(query) => {
               if (serverSearch) {
