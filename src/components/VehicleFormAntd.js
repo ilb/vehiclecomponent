@@ -94,7 +94,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
             }}
             showSearch
             onSelect={(value, { data }) => {
-              transmission && form.onChange(transmission.name, data.vehicleTransmission.name);
+              transmission && form.onChange(transmission.name, data.transmission.name);
               _onChange(modification.name, value);
             }}
             {...modification}
