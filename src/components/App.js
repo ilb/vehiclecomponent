@@ -7,8 +7,8 @@ import { useState } from 'react';
 
 export default function App() {
   const [model] = useState({
-    vehicleManufacturer: 'Acura',
-    vehicleTransmission2: '123'
+    vehicleManufacturer: 'vaz_(lada)',
+    vehicleModel: 'niva_travel'
   });
   const [year, setVehicleYear] = useState();
 

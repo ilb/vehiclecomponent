@@ -39,6 +39,11 @@ const DropdownAntd = ({
 
     if (!options.find((option) => option.value === value) && !defaultValue) {
       onChange(null);
+      return;
+    }
+
+    if (options.find((option) => option.value === value)) {
+      itemSelected(value);
     }
   }, [options]);
 
@@ -65,6 +70,14 @@ const DropdownAntd = ({
     return option.text.toLowerCase().indexOf(input.toLowerCase().trim()) !== -1;
   };
 
+  const itemSelected = (value) => {
+    onSelect &&
+      onSelect(
+        value,
+        options.find((option) => option.value === value)
+      );
+  };
+
   return (
     <div className="vehiclecomponent-dropdown">
       {params.displayType === 'text' && (
@@ -79,11 +92,7 @@ const DropdownAntd = ({
           options={options}
           onChange={(value) => {
             onChange(value);
-            onSelect &&
-              onSelect(
-                value,
-                options.find((option) => option.value === value)
-              );
+            itemSelected(value);
           }}
           onDeselect={() => {
             onChange(null);

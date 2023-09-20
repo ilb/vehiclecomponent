@@ -37,6 +37,11 @@ const DropdownSemantic = ({
 
     if (!options.find((option) => option.value === value) && !currentValue) {
       onChange(null);
+      return;
+    }
+
+    if (options.find((option) => option.value === value)) {
+      itemSelected(value, options);
     }
   }, [options]);
 
@@ -50,6 +55,10 @@ const DropdownSemantic = ({
 
   const getOptions = async (filters) => {
     return resource(filters, autocatalogsUrl);
+  };
+
+  const itemSelected = (value, options) => {
+    onSelect && onSelect(options.find((option) => option.value === value).label);
   };
 
   return (
@@ -78,8 +87,7 @@ const DropdownSemantic = ({
             onChange={(event, data) => {
               setCurrentValue(data.value);
               onChange(data.value);
-              onSelect &&
-                onSelect(data.options.find((option) => option.value === data.value).label);
+              itemSelected(data.value, data.options);
             }}
             onSearchChange={(query) => {
               if (serverSearch) {
