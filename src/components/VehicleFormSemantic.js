@@ -77,6 +77,7 @@ const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onCha
           />
         </Grid.Column>
       )}
+      {/** TODO: filter by modelId */}
       {modification && (
         <Grid.Column>
           <Dropdown

@@ -27,6 +27,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
   const [bodyField] = useField(fields.model.body, { value: null });
   const form = useForm();
   const [manufacturerName, setManufacturerName] = useState(manufacturerField.value || null);
+  const [modelId, setModelId] = useState();
   const [modelName, setModelName] = useState(modelField.value || null);
   const [bodyName, setBodyName] = useState(bodyField.value || null);
 
@@ -57,7 +58,8 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
             showSearch
             resource={model.resource || ModelResource.get}
             filters={{ manufacturerName }}
-            onSelect={(value, { text }) => {
+            onSelect={(value, { id, text }) => {
+              setModelId(id);
               setModelName(text);
               _onChange(model.name, value);
             }}
@@ -84,7 +86,12 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             resource={modification.resource || ModificationResource.get}
-            filters={{ modelName, ...(bodyName && { bodyName }), ...params.modification.filters }}
+            filters={{
+              modelName,
+              ...(bodyName && { bodyName }),
+              ...(modelId && { modelId }),
+              ...params.modification.filters
+            }}
             showSearch
             onSelect={(value, { data }) => {
               transmission && form.onChange(transmission.name, data.vehicleTransmission.name);
