@@ -44,7 +44,12 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
             showSearch
             onSelect={(value, { text }) => {
               setManufacturerName(text);
-              _onChange(manufacturer.name, value);
+              if (manufacturerField.value !== value) {
+                model && form.onChange(model.name, null);
+                body && form.onChange(body.name, null);
+                modification && form.onChange(modification.name, null);
+                transmission && form.onChange(transmission.name, null);
+              }
             }}
             resource={manufacturer.resource || ManufacturerResource.get}
             {...manufacturer}
@@ -61,7 +66,11 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
             onSelect={(value, { id, text }) => {
               setModelId(id);
               setModelName(text);
-              _onChange(model.name, value);
+              if (modelField.value !== value) {
+                body && form.onChange(body.name, null);
+                modification && form.onChange(modification.name, null);
+                transmission && form.onChange(transmission.name, null);
+              }
             }}
             {...model}
           />
