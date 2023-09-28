@@ -10,12 +10,19 @@ import TransmissionResource from '../resources/TransmissionResource.mjs';
 import { AutoField } from 'uniforms-semantic';
 import { connectField, useField } from 'uniforms';
 
-const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onChange, params = {} }) => {
+const VehicleFormSemantic = ({
+  cols = 2,
+  fields = {},
+  additionFields = [],
+  onChange,
+  params = {}
+}) => {
   const { manufacturer, model, modification, body, steerLocation, transmission } = fields;
   const [manufacturerField] = useField(fields.manufacturer.name, {});
   const [modelField] = useField(fields.model.name, {});
   const [bodyField] = useField(fields.model.body, { value: null });
   const [manufacturerName, setManufacturerName] = useState(manufacturerField.value || null);
+  const [modelId, setModelId] = useState();
   const [modelName, setModelName] = useState(modelField.value || null);
   const [bodyName, setBodyName] = useState(bodyField.value || null);
 
@@ -48,7 +55,7 @@ const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onCha
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             showSearch
-            onSelect={setManufacturerName}
+            onSelect={(option) => setManufacturerName(option.label)}
             resource={manufacturer.resource || ManufacturerResource.get}
             {...manufacturer}
           />
@@ -61,7 +68,10 @@ const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onCha
             showSearch
             resource={model.resource || ModelResource.get}
             filters={{ manufacturerName }}
-            onSelect={setModelName}
+            onSelect={(option) => {
+              setModelName(option.label);
+              setModelId(option.id);
+            }}
             {...model}
           />
         </Grid.Column>
@@ -72,7 +82,7 @@ const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onCha
             autocatalogsUrl={params.autocatalogsUrl}
             resource={body.resource || BodyResource.get}
             filters={{ modelName }}
-            onSelect={setBodyName}
+            onSelect={(option) => setBodyName(option.label)}
             {...body}
           />
         </Grid.Column>
@@ -83,9 +93,12 @@ const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onCha
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             resource={modification.resource || ModificationResource.get}
-            filters={
-              { modelName, ...(bodyName && { bodyName }
-            ), ...params.modification.filters }}
+            filters={{
+              modelName,
+              ...(bodyName && { bodyName }),
+              ...(modelId && { modelId }),
+              ...params.modification.filters
+            }}
             showSearch
             {...modification}
           />
@@ -116,7 +129,7 @@ const VehicleFormSemantic = ({ cols = 2, fields = {}, additionFields = [], onCha
               resource={params.resource}
               autocatalogsUrl={params.autocatalogsUrl}
               onSelect={(value) => {
-                _onChange(params.name, value);
+                _onChange(params.name, value.label);
               }}
               {...params}
             />

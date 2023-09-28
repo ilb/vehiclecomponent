@@ -58,7 +58,7 @@ const DropdownSemantic = ({
   };
 
   const itemSelected = (value, options) => {
-    onSelect && onSelect(options.find((option) => option.value === value).label);
+    onSelect && onSelect(options.find((option) => option.value === value));
   };
 
   return (
