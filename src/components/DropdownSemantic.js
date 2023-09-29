@@ -83,7 +83,7 @@ const DropdownSemantic = ({
             error={!!params.error && params.error.message}
             selection
             value={currentValue}
-            options={options}
+            options={options?.map(({ label, ...data }) => data)}
             onChange={(event, data) => {
               setCurrentValue(data.value);
               onChange(data.value);

@@ -55,7 +55,7 @@ const VehicleFormSemantic = ({
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             showSearch
-            onSelect={(option) => setManufacturerName(option.label)}
+            onSelect={(option) => setManufacturerName(option.text)}
             resource={manufacturer.resource || ManufacturerResource.get}
             {...manufacturer}
           />
@@ -69,7 +69,7 @@ const VehicleFormSemantic = ({
             resource={model.resource || ModelResource.get}
             filters={{ manufacturerName }}
             onSelect={(option) => {
-              setModelName(option.label);
+              setModelName(option.text);
               setModelId(option.id);
             }}
             {...model}
@@ -82,7 +82,7 @@ const VehicleFormSemantic = ({
             autocatalogsUrl={params.autocatalogsUrl}
             resource={body.resource || BodyResource.get}
             filters={{ modelName }}
-            onSelect={(option) => setBodyName(option.label)}
+            onSelect={(option) => setBodyName(option.text)}
             {...body}
           />
         </Grid.Column>
@@ -129,7 +129,7 @@ const VehicleFormSemantic = ({
               resource={params.resource}
               autocatalogsUrl={params.autocatalogsUrl}
               onSelect={(value) => {
-                _onChange(params.name, value.label);
+                _onChange(params.name, value.value);
               }}
               {...params}
             />

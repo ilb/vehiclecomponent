@@ -83,7 +83,9 @@ const DropdownAntd = ({
       {params.displayType === 'text' && (
         <>
           <span style={{ float: 'left' }}>{params.label}:</span>
-          <span style={{ float: 'right', fontWeight: 600 }}>{value}</span>
+          <span style={{ float: 'right', fontWeight: 600 }}>
+            {options.find((option) => option.value === value)?.text}
+          </span>
         </>
       )}
       {params.displayType !== 'text' && (
