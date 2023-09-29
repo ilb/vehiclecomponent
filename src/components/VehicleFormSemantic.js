@@ -97,7 +97,7 @@ const VehicleFormSemantic = ({
               modelName,
               ...(bodyName && { bodyName }),
               ...(modelId && { modelId }),
-              ...params.modification.filters
+              ...params.modification?.filters
             }}
             showSearch
             {...modification}

@@ -99,7 +99,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
               modelName,
               ...(bodyName && { bodyName }),
               ...(modelId && { modelId }),
-              ...params.modification.filters
+              ...params.modification?.filters
             }}
             showSearch
             onSelect={(value, { data }) => {
