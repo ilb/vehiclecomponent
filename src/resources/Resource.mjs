@@ -13,7 +13,7 @@ export default class Resource {
         key: id,
         label: name,
         text: name,
-        value: name,
+        value: code,
         data,
       };
     })
