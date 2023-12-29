@@ -42,8 +42,11 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             showSearch
-            onSelect={(value, { text }) => {
-              setManufacturerName(text);
+            onSelect={(value, params) => {
+              setManufacturerName(params?.text);
+              setModelId(null);
+              setModelName(null);
+              setBodyName(null);
               if (manufacturerField.value !== value) {
                 model && form.onChange(model.name, null);
                 body && form.onChange(body.name, null);
@@ -63,9 +66,10 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
             showSearch
             resource={model.resource || ModelResource.get}
             filters={{ manufacturerName }}
-            onSelect={(value, { id, text }) => {
-              setModelId(id);
-              setModelName(text);
+            onSelect={(value, params) => {
+              setModelId(params?.id);
+              setModelName(params?.text);
+              setBodyName(null);
               if (modelField.value !== value) {
                 body && form.onChange(body.name, null);
                 modification && form.onChange(modification.name, null);
@@ -82,8 +86,8 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
             autocatalogsUrl={params.autocatalogsUrl}
             resource={body.resource || BodyResource.get}
             filters={{ modelName }}
-            onSelect={(value, { text }) => {
-              setBodyName(text);
+            onSelect={(value, params) => {
+              setBodyName(params?.text);
               _onChange(body.name, value);
             }}
             {...body}
@@ -102,8 +106,8 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
               ...params.modification?.filters
             }}
             showSearch
-            onSelect={(value, { data }) => {
-              transmission && form.onChange(transmission.name, data.transmission.name);
+            onSelect={(value, params) => {
+              transmission && form.onChange(transmission.name, params?.data?.transmission.name);
               _onChange(modification.name, value);
             }}
             {...modification}
