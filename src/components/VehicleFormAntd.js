@@ -20,7 +20,7 @@ import { useField, useForm } from 'uniforms';
  * @return {JSX.Element}
  * @constructor
  */
-const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange, params = {} }) => {
+const VehicleFormAntd = ({ cols = 2, gutter = [], fields = {}, additionFields = [], onChange, params = {} }) => {
   const { manufacturer, model, modification, body, transmission, steerLocation } = fields;
   const [manufacturerField] = useField(fields.manufacturer.name, {});
   const [modelField] = useField(fields.model.name, {});
@@ -36,7 +36,7 @@ const VehicleFormAntd = ({ cols = 2, fields = {}, additionFields = [], onChange,
   };
 
   return (
-    <Row>
+    <Row style={{ margin: 0 }} gutter={gutter}>
       {manufacturer && (
         <Col span={24 / cols}>
           <Dropdown
