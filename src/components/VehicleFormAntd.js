@@ -36,7 +36,7 @@ const VehicleFormAntd = ({ cols = 2, gutter = [], fields = {}, additionFields = 
   };
 
   return (
-    <Row style={{ margin: 0 }} gutter={gutter}>
+    <Row gutter={gutter}>
       {manufacturer && (
         <Col span={24 / cols}>
           <Dropdown
