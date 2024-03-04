@@ -1,6 +1,6 @@
 import Api from "../Api";
 
-test('Api test', () => {
+test("Api test", () => {
   const data = {};
   const res = Api.prepareData(data);
 

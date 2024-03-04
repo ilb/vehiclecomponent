@@ -1,12 +1,17 @@
-import { JSONSchemaBridge } from 'uniforms-bridge-json-schema';
-import localize from 'ajv-i18n';
-import ErrorFormatter from './ErrorFormatter';
-import ajv from './ajv';
+import localize from "ajv-i18n";
+import { JSONSchemaBridge } from "uniforms-bridge-json-schema";
 
+import ajv from "./ajv";
+import ErrorFormatter from "./ErrorFormatter";
+
+/**
+ * @param schema
+ * @param additionalValidator
+ */
 const createValidator = (schema, additionalValidator) => {
   const validator = ajv.compile(schema);
 
-  return (model) => {
+  return model => {
     let errors = [];
 
     validator(model);
@@ -26,6 +31,10 @@ const createValidator = (schema, additionalValidator) => {
   };
 };
 
+/**
+ * @param schema
+ * @param additionalValidator
+ */
 const createSchemaBridge = (schema, additionalValidator) => {
   const schemaValidator = createValidator(schema, additionalValidator);
 
