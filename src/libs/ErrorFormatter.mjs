@@ -1,4 +1,8 @@
 export default class ErrorFormatter {
+  /**
+   * @param errors
+   * @param schema
+   */
   static make(errors, schema) {
     const errorMessages = [];
 
@@ -16,6 +20,9 @@ export default class ErrorFormatter {
     return errorMessages;
   }
 
+  /**
+   * @param string
+   */
   static ucfirst(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }

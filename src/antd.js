@@ -1,1 +1,1 @@
-export { default as VehicleForm } from './components/VehicleFormAntd';
+export { default as VehicleForm } from "./components/VehicleFormAntd";
