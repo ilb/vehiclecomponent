@@ -1,12 +1,10 @@
 export default class Resource {
-  path = ''
+  path = '';
 
-  static async get(filters, autocatalogsUrl) {
-
-  }
+  static async get(filters, autocatalogsUrl) {}
 
   static map(rows) {
-    return rows.map(row => {
+    return rows.map((row) => {
       const { id, name, code, ...data } = row;
       return {
         id,
@@ -14,8 +12,8 @@ export default class Resource {
         label: name,
         text: name,
         value: code,
-        data,
+        data
       };
-    })
+    });
   }
 }

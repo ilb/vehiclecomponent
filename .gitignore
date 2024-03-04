@@ -100,3 +100,6 @@ typings/
 .idea
 package-lock.json
 pnpm-lock.yaml
+
+# vscode config
+.vscode

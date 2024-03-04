@@ -30,6 +30,6 @@ const createSchemaBridge = (schema, additionalValidator) => {
   const schemaValidator = createValidator(schema, additionalValidator);
 
   return new JSONSchemaBridge(schema, schemaValidator);
-}
+};
 
 export default createSchemaBridge;

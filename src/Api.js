@@ -13,6 +13,7 @@ export default class Api {
   }
 
   static async execute(url, method, data) {
+    this.prepareData(data);
     const link = this.prepareUrl(url, method, data);
     const params = this.prepareParams(link, method, data);
     const response = await fetch(link, params);
@@ -63,5 +64,17 @@ export default class Api {
       return false;
     }
     return url.protocol === 'http:' || url.protocol === 'https:';
+  }
+
+  /**
+   *
+   * @param {*} data
+   */
+  static prepareData(data) {
+    for (const key in data) {
+      if ([null, undefined].includes(data[key])) {
+        delete data[key];
+      }
+    }
   }
 }
