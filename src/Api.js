@@ -92,7 +92,7 @@ export default class Api {
    */
   static prepareData(data) {
     for (const key in data) {
-      if ([null, undefined].includes(data[key])) {
+      if ([null, undefined, ""].includes(data[key])) {
         delete data[key];
       }
     }
