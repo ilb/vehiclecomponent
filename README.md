@@ -11,7 +11,7 @@ npm install @ilb/vehiclecomponent
 #### Для antd:
 
 ```
-
+import { VehicleForm } from "@ilb/vehiclecomponent/src/antd";
 ```
 
 #### Для semantic:
