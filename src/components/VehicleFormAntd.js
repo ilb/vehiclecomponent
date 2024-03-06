@@ -1,15 +1,15 @@
-import Dropdown from './DropdownAntd';
-import Col from 'antd/lib/grid/col';
-import Row from 'antd/lib/grid/row';
-import ManufacturerResource from '../resources/ManufacturerResource.mjs';
-import ModelResource from '../resources/ModelResource.mjs';
-import ModificationResource from '../resources/ModificationResource.mjs';
-import BodyResource from '../resources/BodyResource.mjs';
-import { useState } from 'react';
-import SteerLocationResource from '../resources/SteerLocationResource.mjs';
-import TransmissionResource from '../resources/TransmissionResource.mjs';
-import { AutoField } from 'uniforms-antd';
-import { useField, useForm } from 'uniforms';
+import Dropdown from "./DropdownAntd";
+import Col from "antd/lib/grid/col";
+import Row from "antd/lib/grid/row";
+import ManufacturerResource from "../resources/ManufacturerResource.mjs";
+import ModelResource from "../resources/ModelResource.mjs";
+import ModificationResource from "../resources/ModificationResource.mjs";
+import BodyResource from "../resources/BodyResource.mjs";
+import { useState } from "react";
+import SteerLocationResource from "../resources/SteerLocationResource.mjs";
+import TransmissionResource from "../resources/TransmissionResource.mjs";
+import { AutoField } from "uniforms-antd";
+import { useField, useForm } from "uniforms";
 
 /**
  * @param {int} cols
@@ -26,7 +26,7 @@ const VehicleFormAntd = ({
   fields = {},
   additionFields = [],
   onChange,
-  params = {}
+  params = {},
 }) => {
   const { manufacturer, model, modification, body, transmission, steerLocation } = fields;
   const [manufacturerField] = useField(fields.manufacturer.name, {});
@@ -110,7 +110,7 @@ const VehicleFormAntd = ({
               modelName,
               ...(bodyName && { bodyName }),
               ...(modelId && { modelId }),
-              ...params.modification?.filters
+              ...params.modification?.filters,
             }}
             showSearch
             onSelect={(value, params) => {
@@ -126,7 +126,7 @@ const VehicleFormAntd = ({
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             resource={steerLocation.resource || SteerLocationResource.get}
-            onSelect={(value) => {
+            onSelect={value => {
               _onChange(steerLocation.name, value);
             }}
             {...steerLocation}
@@ -139,7 +139,7 @@ const VehicleFormAntd = ({
             autocatalogsUrl={params.autocatalogsUrl}
             resource={transmission.resource || TransmissionResource.get}
             filters={{ modelName }}
-            onSelect={(value) => {
+            onSelect={value => {
               _onChange(transmission.name, value);
             }}
             {...transmission}
@@ -152,7 +152,7 @@ const VehicleFormAntd = ({
             <Dropdown
               autocatalogsUrl={params.autocatalogsUrl}
               resource={params.resource}
-              onSelect={(value) => {
+              onSelect={value => {
                 _onChange(params.name, value);
               }}
               {...params}

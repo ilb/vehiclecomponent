@@ -1,6 +1,6 @@
-import { connectField } from 'uniforms';
-import { SelectField } from 'uniforms-antd';
-import { useEffect, useState } from 'react';
+import { connectField } from "uniforms";
+import { SelectField } from "uniforms-antd";
+import { useEffect, useState } from "react";
 
 const DropdownAntd = ({
   resource,
@@ -18,7 +18,7 @@ const DropdownAntd = ({
   const [defaultValue] = useState(value);
   const [options, setOptions] = useState([]);
   const [prevFilters, setPrevFilters] = useState(null);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (resource && !filters) {
@@ -37,30 +37,35 @@ const DropdownAntd = ({
   useEffect(() => {
     setPrevFilters({ ...filters, query });
 
-    if (!options.find((option) => option.value === value) && !defaultValue) {
+    if (options.length && !options.find(option => option.value === defaultValue)) {
       onChange(null);
       return;
     }
 
-    if (options.find((option) => option.value === value)) {
+    if (!options.find(option => option.value === value) && !defaultValue) {
+      onChange(null);
+      return;
+    }
+
+    if (options.find(option => option.value === value)) {
       itemSelected(value);
     }
-  }, [options]);
+  }, [options, defaultValue]);
 
   const filtersHasBeenChanged = () => {
     return JSON.stringify(filters) !== JSON.stringify(prevFilters);
   };
 
   const filtersIsApplied = () => {
-    return !!filters && !!Object.values(filters).filter((filter) => filter !== null).length;
+    return !!filters && !!Object.values(filters).filter(filter => filter !== null).length;
   };
 
-  const getOptions = async (filters) => {
+  const getOptions = async filters => {
     return resource(filters, autocatalogsUrl);
   };
 
   const updateOptions = async () => {
-    getOptions(filters).then((options) => {
+    getOptions(filters).then(options => {
       setOptions(options);
       onSetOptions && onSetOptions(options);
     });
@@ -70,37 +75,37 @@ const DropdownAntd = ({
     return option.text.toLowerCase().indexOf(input.toLowerCase().trim()) !== -1;
   };
 
-  const itemSelected = (value) => {
+  const itemSelected = value => {
     onSelect &&
       onSelect(
         value,
-        options.find((option) => option.value === value)
+        options.find(option => option.value === value),
       );
   };
 
   return (
     <div className="vehiclecomponent-dropdown">
-      {params.displayType === 'text' && (
+      {params.displayType === "text" && (
         <>
-          <span style={{ float: 'left' }}>{params.label}:</span>
-          <span style={{ float: 'right', fontWeight: 600 }}>
-            {options.find((option) => option.value === value)?.text}
+          <span style={{ float: "left" }}>{params.label}:</span>
+          <span style={{ float: "right", fontWeight: 600 }}>
+            {options.find(option => option.value === value)?.text}
           </span>
         </>
       )}
-      {params.displayType !== 'text' && (
+      {params.displayType !== "text" && (
         <SelectField
           showSearch={showSearch || serverSearch}
           options={options}
-          onChange={(value) => {
+          onChange={value => {
             onChange(value);
             itemSelected(value);
           }}
           onDeselect={() => {
             onChange(null);
           }}
-          onSearch={(query) => {
-            if (serverSearch) setQuery(query || '');
+          onSearch={query => {
+            if (serverSearch) setQuery(query || "");
           }}
           filterOption={(input, option) => {
             if (serverSearch) {
