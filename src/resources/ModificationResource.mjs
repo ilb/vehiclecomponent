@@ -7,11 +7,16 @@ export default class ModificationResource extends Resource {
    * @param autocatalogsUrl
    */
   static async get(filters, autocatalogsUrl) {
-    const result = await Api.get(autocatalogsUrl ? `${autocatalogsUrl}/modifications` : "/autocatalogs/modifications", {
-      withTransmission: true,
-      ...filters,
-    });
-
+    if (!filters.modelName || !filters.modelId) {
+      return [];
+    }
+    const result = await Api.get(
+      autocatalogsUrl ? `${autocatalogsUrl}/modifications` : "/autocatalogs/modifications",
+      {
+        withTransmission: true,
+        ...filters,
+      },
+    );
     return ModificationResource.map(result.body || []);
   }
 }
