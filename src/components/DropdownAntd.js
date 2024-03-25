@@ -28,7 +28,6 @@ const DropdownAntd = ({
 
   useEffect(() => {
     filters = { ...filters, query };
-
     if (filters && filtersHasBeenChanged() && filtersIsApplied()) {
       updateOptions().catch(console.error);
     }
@@ -36,7 +35,10 @@ const DropdownAntd = ({
 
   useEffect(() => {
     setPrevFilters({ ...filters, query });
-
+    if (value != defaultValue && !options.find(option => option.value === value)) {
+      onChange(null);
+      return;
+    }
     if (options.length && !options.find(option => option.value === defaultValue)) {
       onChange(null);
       return;
@@ -53,7 +55,7 @@ const DropdownAntd = ({
   }, [options, defaultValue]);
 
   const filtersHasBeenChanged = () => {
-    return JSON.stringify(filters) !== JSON.stringify(prevFilters);
+    return prevFilters && JSON.stringify(filters) !== JSON.stringify(prevFilters);
   };
 
   const filtersIsApplied = () => {
