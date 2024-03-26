@@ -44,11 +44,6 @@ const DropdownAntd = ({
       return;
     }
 
-    if (!options.find(option => option.value === value) && !defaultValue) {
-      onChange(null);
-      return;
-    }
-
     if (options.find(option => option.value === value)) {
       itemSelected(value);
     }
