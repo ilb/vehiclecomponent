@@ -19,6 +19,7 @@ const DropdownAntd = ({
   const [options, setOptions] = useState([]);
   const [prevFilters, setPrevFilters] = useState(null);
   const [query, setQuery] = useState("");
+  const [isLoadDatata, setLoadData] = useState(false);
 
   useEffect(() => {
     if (resource && !filters) {
@@ -28,7 +29,7 @@ const DropdownAntd = ({
 
   useEffect(() => {
     filters = { ...filters, query };
-    if (filters && filtersHasBeenChanged() && filtersIsApplied()) {
+    if (filters && filtersHasBeenChanged() && filtersIsApplied() && !isLoadDatata) {
       updateOptions().catch(console.error);
     }
   }, [filters, query]);
@@ -62,10 +63,14 @@ const DropdownAntd = ({
   };
 
   const updateOptions = async () => {
-    getOptions(filters).then(options => {
-      setOptions(options);
-      onSetOptions && onSetOptions(options);
-    });
+    setLoadData(true);
+    getOptions(filters)
+      .then(options => {
+        setOptions(options);
+        onSetOptions && onSetOptions(options);
+      })
+      .catch(console.error)
+      .finally(() => setLoadData(false));
   };
 
   const filterByInput = (input, option) => {
@@ -94,6 +99,7 @@ const DropdownAntd = ({
         <SelectField
           showSearch={showSearch || serverSearch}
           options={options}
+          loading={isLoadDatata}
           onChange={value => {
             onChange(value);
             itemSelected(value);
