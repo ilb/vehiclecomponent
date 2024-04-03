@@ -30,6 +30,7 @@ export default function App() {
                 vehicleSteerLocation: { title: "Расположение руля", type: "string" },
                 vehicleTransmission: { title: "Коробка передач", type: "string" },
                 vehicleYear: { title: "Год выпуска", type: "string" },
+                vehicleManufacturerModel: { title: "Марка, модель ТС", type: "string" },
               },
             })}>
             <TextField
@@ -60,6 +61,7 @@ export default function App() {
                 steerLocation: { name: "vehicleSteerLocation" },
                 body: { name: "vehicleBody" },
                 transmission: { name: "vehicleTransmission" },
+                manufacturerModel: { name: "vehicleManufacturerModel" },
               }}
             />
             <Divider />
