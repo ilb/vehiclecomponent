@@ -5,10 +5,10 @@ import ManufacturerResource from "../resources/ManufacturerResource.mjs";
 import ModelResource from "../resources/ModelResource.mjs";
 import ModificationResource from "../resources/ModificationResource.mjs";
 import BodyResource from "../resources/BodyResource.mjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SteerLocationResource from "../resources/SteerLocationResource.mjs";
 import TransmissionResource from "../resources/TransmissionResource.mjs";
-import { AutoField } from "uniforms-antd";
+import { AutoField, TextField } from "uniforms-antd";
 import { useField, useForm } from "uniforms";
 
 /**
@@ -28,7 +28,7 @@ const VehicleFormAntd = ({
   onChange,
   params = {},
 }) => {
-  const { manufacturer, model, modification, body, transmission, steerLocation } = fields;
+  const { manufacturer, model, modification, body, transmission, steerLocation, manufacturerModel } = fields;
   const [manufacturerField] = useField(fields.manufacturer.name, {});
   const [modelField] = useField(fields.model.name, {});
   const [bodyField] = useField(fields.model.body, { value: null });
@@ -37,10 +37,17 @@ const VehicleFormAntd = ({
   const [modelId, setModelId] = useState();
   const [modelName, setModelName] = useState(modelField.value || null);
   const [bodyName, setBodyName] = useState(bodyField.value || null);
+  const [manufacturerModelValue, setManufacturerModelValue] = useState("");
 
   const _onChange = (name, value) => {
     onChange && onChange(name, value);
   };
+
+  useEffect(() => {
+    if (manufacturerName && modelName) {
+      setManufacturerModelValue(`${ manufacturerName } ${ modelName }`);
+    }
+  }, [manufacturerName, modelName]);
 
   return (
     <Row gutter={gutter}>
@@ -84,6 +91,17 @@ const VehicleFormAntd = ({
               }
             }}
             {...model}
+          />
+        </Col>
+      )}
+      {manufacturerModel && (
+        <Col span={24 / cols}>
+          <TextField
+            value={manufacturerModelValue}
+            onInput={event => {
+              setManufacturerModelValue(event.target.value)
+            }}
+            {...manufacturerModel}
           />
         </Col>
       )}
