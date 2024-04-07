@@ -6,6 +6,7 @@ import { VehicleForm as VehicleFormAntd } from "../antd";
 import { useState } from "react";
 
 export default function App() {
+  const [manufacturerModelValue, setManufacturerModelValue] = useState("vaz_(lada) niva_travel");
   const [model] = useState({
     vehicleManufacturer: "vaz_(lada)",
     vehicleModel: "niva_travel",
@@ -61,7 +62,11 @@ export default function App() {
                 steerLocation: { name: "vehicleSteerLocation" },
                 body: { name: "vehicleBody" },
                 transmission: { name: "vehicleTransmission" },
-                manufacturerModel: { name: "vehicleManufacturerModel" },
+                manufacturerModel: {
+                  name: "vehicleManufacturerModel",
+                  setManufacturerModelValue,
+                  value: manufacturerModelValue,
+                },
               }}
             />
             <Divider />
