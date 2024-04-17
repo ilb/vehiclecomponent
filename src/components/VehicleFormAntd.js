@@ -32,6 +32,7 @@ const VehicleFormAntd = ({
   const [manufacturerField] = useField(fields.manufacturer.name, {});
   const [modelField] = useField(fields.model.name, {});
   const [bodyField] = useField(fields.model.body, { value: null });
+  const [modificationField] = useField(fields.modification.name, {});
   const form = useForm();
   const [manufacturerName, setManufacturerName] = useState(manufacturerField.value || null);
   const [modelId, setModelId] = useState();
@@ -49,12 +50,13 @@ const VehicleFormAntd = ({
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             showSearch
-            onSelect={(value, params) => {
-              setManufacturerName(params?.text);
+            onSelect={(value, _params) => {
+              setManufacturerName(_params?.text);
               setModelId(null);
               setModelName(null);
               setBodyName(null);
               if (manufacturerField.value !== value) {
+                params.setFinalEstimation && params.setFinalEstimation("");
                 model && form.onChange(model.name, null);
                 body && form.onChange(body.name, null);
                 modification && form.onChange(modification.name, null);
@@ -73,12 +75,13 @@ const VehicleFormAntd = ({
             showSearch
             resource={model.resource || ModelResource.get}
             filters={{ manufacturerName }}
-            onSelect={(value, params) => {
-              setModelId(params?.id);
-              setModelName(params?.text);
+            onSelect={(value, _params) => {
+              setModelId(_params?.id);
+              setModelName(_params?.text);
               setBodyName(null);
               if (modelField.value !== value) {
-                manufacturerModel && manufacturerModel.setManufacturerModelValue(`${manufacturerName} ${params?.text}`);
+                params.setFinalEstimation && params.setFinalEstimation("");
+                manufacturerModel && manufacturerModel.setManufacturerModelValue(`${manufacturerName} ${_params?.text}`);
                 body && form.onChange(body.name, null);
                 modification && form.onChange(modification.name, null);
                 transmission && form.onChange(transmission.name, null);
@@ -124,9 +127,12 @@ const VehicleFormAntd = ({
               ...params.modification?.filters,
             }}
             showSearch
-            onSelect={(value, params) => {
-              transmission && form.onChange(transmission.name, params?.data?.transmission.name);
+            onSelect={(value, _params) => {
+              transmission && form.onChange(transmission.name, _params?.data?.transmission.name);
               _onChange(modification.name, value);
+              if (modificationField.value !== value) {
+                params.setFinalEstimation && params.setFinalEstimation("");
+              }
             }}
             {...modification}
           />
