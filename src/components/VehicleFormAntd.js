@@ -22,6 +22,14 @@ import { useField, useForm } from "uniforms";
  */
 const VehicleFormAntd = ({
   cols = 2,
+  manufacturerCol = 2,
+  modelCol=2,
+  manufacturerModelCol = 2,
+  bodyCol=2,
+  modificationCol=2,
+  steerLocationCol=2,
+  transmissionCol=2,
+  additionFieldsCol=2,
   gutter = [],
   fields = {},
   additionFields = [],
@@ -46,7 +54,7 @@ const VehicleFormAntd = ({
   return (
     <Row gutter={gutter}>
       {manufacturer && (
-        <Col span={24 / cols}>
+        <Col span={24 / manufacturerCol}>
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             showSearch
@@ -69,7 +77,7 @@ const VehicleFormAntd = ({
         </Col>
       )}
       {model && (
-        <Col span={24 / cols}>
+        <Col span={24 / modelCol}>
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             showSearch
@@ -92,7 +100,7 @@ const VehicleFormAntd = ({
         </Col>
       )}
       {manufacturerModel && (
-        <Col span={24 / cols}>
+        <Col span={24 / manufacturerModelCol}>
           <TextField
             onInput={event => {
               manufacturerModel.setManufacturerModelValue(event.target.value)
@@ -102,7 +110,7 @@ const VehicleFormAntd = ({
         </Col>
       )}
       {body && (
-        <Col span={24 / cols}>
+        <Col span={24 / bodyCol}>
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             resource={body.resource || BodyResource.get}
@@ -116,7 +124,7 @@ const VehicleFormAntd = ({
         </Col>
       )}
       {modification && (
-        <Col span={24 / cols}>
+        <Col span={24 / modificationCol}>
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             resource={modification.resource || ModificationResource.get}
@@ -139,7 +147,7 @@ const VehicleFormAntd = ({
         </Col>
       )}
       {steerLocation && (
-        <Col span={24 / cols}>
+        <Col span={24 / steerLocationCol}>
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             resource={steerLocation.resource || SteerLocationResource.get}
@@ -151,7 +159,7 @@ const VehicleFormAntd = ({
         </Col>
       )}
       {transmission && (
-        <Col span={24 / cols}>
+        <Col span={24 / transmissionCol}>
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             resource={transmission.resource || TransmissionResource.get}
@@ -164,7 +172,7 @@ const VehicleFormAntd = ({
         </Col>
       )}
       {additionFields.map((params, key) => (
-        <Col key={key} span={24 / cols}>
+        <Col key={key} span={24 / additionFieldsCol}>
           {params.resource && (
             <Dropdown
               autocatalogsUrl={params.autocatalogsUrl}
