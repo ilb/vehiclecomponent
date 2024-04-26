@@ -21,7 +21,6 @@ import { useField, useForm } from "uniforms";
  * @constructor
  */
 const VehicleFormAntd = ({
-  cols = 2,
   manufacturerCol = 2,
   modelCol=2,
   manufacturerModelCol = 2,
