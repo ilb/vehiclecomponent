@@ -36,7 +36,7 @@ export default class Api {
       url = process.env.API_PATH + url;
     }
 
-    if (method === "GET") {
+    if (method === "GET" && data) {
       url = `${url}?${new URLSearchParams(data).toString()}`;
     }
 
@@ -51,7 +51,7 @@ export default class Api {
   static prepareParams(url, method, data) {
     const params = { method };
 
-    if (method !== "GET") {
+    if (method !== "GET" && data) {
       params.body = JSON.stringify(data);
     }
 
