@@ -1,6 +1,6 @@
-import { connectField } from 'uniforms';
-import { useEffect, useState } from 'react';
-import { Dropdown, Form } from 'semantic-ui-react';
+import { connectField } from "uniforms";
+import { useEffect, useState } from "react";
+import { Dropdown, Form } from "semantic-ui-react";
 
 const DropdownSemantic = ({
   resource,
@@ -16,7 +16,8 @@ const DropdownSemantic = ({
   const [currentValue, setCurrentValue] = useState(value);
   const [options, setOptions] = useState([]);
   const [prevFilters, setPrevFilters] = useState(null);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
+  const [isLoadDatata, setLoadData] = useState(false);
 
   useEffect(async () => {
     if (resource && !filters) {
@@ -26,54 +27,59 @@ const DropdownSemantic = ({
 
   useEffect(async () => {
     filters = { ...filters, query };
-
-    if (filters && filtersHasBeenChanged() && filtersIsApplied()) {
-      setOptions(await getOptions(filters));
+    if (filters && filtersHasBeenChanged() && filtersIsApplied() && !isLoadDatata) {
+      getOptions(filters).catch(console.error);
     }
   }, [filters, query]);
 
   useEffect(() => {
     setPrevFilters({ ...filters, query });
 
-    if (!options.find((option) => option.value === value) && !currentValue) {
+    if (options && !options.find(option => option.value === value) && !currentValue) {
       onChange(null);
       return;
     }
 
-    if (options.find((option) => option.value === value)) {
+    if (options && options.find(option => option.value === value)) {
       itemSelected(value, options);
     }
   }, [options]);
 
   const filtersHasBeenChanged = () => {
-    return JSON.stringify(filters) !== JSON.stringify(prevFilters);
+    return prevFilters && JSON.stringify(filters) !== JSON.stringify(prevFilters);
   };
 
   const filtersIsApplied = () => {
-    return !!filters && !!Object.values(filters).filter((filter) => filter !== null).length;
+    return !!filters && !!Object.values(filters).filter(filter => filter !== null).length;
   };
 
-  const getOptions = async (filters) => {
-    return resource(filters, autocatalogsUrl);
+  const getOptions = async filters => {
+    setLoadData(true);
+    resource(filters, autocatalogsUrl)
+      .then(res => {
+        setOptions(res);
+      })
+      .catch(console.error)
+      .finally(() => setLoadData(false));
   };
 
   const itemSelected = (value, options) => {
-    onSelect && onSelect(options.find((option) => option.value === value));
+    onSelect && onSelect(options.find(option => option.value === value));
   };
 
   return (
     <div>
-      {params.displayType === 'text' && (
+      {params.displayType === "text" && (
         <>
-          <span className="addition-field-label" style={{ float: 'left' }}>
+          <span className="addition-field-label" style={{ float: "left" }}>
             {params.label}:
           </span>
-          <span className="addition-field-value" style={{ float: 'right', fontWeight: 600 }}>
+          <span className="addition-field-value" style={{ float: "right", fontWeight: 600 }}>
             {value}
           </span>
         </>
       )}
-      {params.displayType !== 'text' && (
+      {params.displayType !== "text" && (
         <Form.Field>
           {params.label && <label>{params.label}</label>}
           <Dropdown
@@ -89,7 +95,7 @@ const DropdownSemantic = ({
               onChange(data.value);
               itemSelected(data.value, data.options);
             }}
-            onSearchChange={(query) => {
+            onSearchChange={query => {
               if (serverSearch) {
                 setQuery(query);
               }
@@ -97,7 +103,7 @@ const DropdownSemantic = ({
           />
           {!!params.error && (
             <div
-              style={{ width: '100%', textAlign: 'center' }}
+              style={{ width: "100%", textAlign: "center" }}
               className="ui red basic pointing label">
               {params.error.message}
             </div>

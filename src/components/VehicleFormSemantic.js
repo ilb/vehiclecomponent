@@ -1,21 +1,21 @@
-import { useState } from 'react';
-import Dropdown from './DropdownSemantic';
-import ManufacturerResource from '../resources/ManufacturerResource.mjs';
-import ModelResource from '../resources/ModelResource.mjs';
-import ModificationResource from '../resources/ModificationResource.mjs';
-import BodyResource from '../resources/BodyResource.mjs';
-import SteerLocationResource from '../resources/SteerLocationResource.mjs';
-import { Grid } from 'semantic-ui-react';
-import TransmissionResource from '../resources/TransmissionResource.mjs';
-import { AutoField } from 'uniforms-semantic';
-import { connectField, useField } from 'uniforms';
+import { useState } from "react";
+import Dropdown from "./DropdownSemantic";
+import ManufacturerResource from "../resources/ManufacturerResource.mjs";
+import ModelResource from "../resources/ModelResource.mjs";
+import ModificationResource from "../resources/ModificationResource.mjs";
+import BodyResource from "../resources/BodyResource.mjs";
+import SteerLocationResource from "../resources/SteerLocationResource.mjs";
+import { Grid } from "semantic-ui-react";
+import TransmissionResource from "../resources/TransmissionResource.mjs";
+import { AutoField } from "uniforms-semantic";
+import { connectField, useField } from "uniforms";
 
 const VehicleFormSemantic = ({
   cols = 2,
   fields = {},
   additionFields = [],
   onChange,
-  params = {}
+  params = {},
 }) => {
   const { manufacturer, model, modification, body, steerLocation, transmission } = fields;
   const [manufacturerField] = useField(fields.manufacturer.name, {});
@@ -30,20 +30,20 @@ const VehicleFormSemantic = ({
     onChange(name, value);
   };
 
-  const AdditionField = connectField((params) => {
+  const AdditionField = connectField(params => {
     return (
       <div>
-        {params.displayType === 'text' && (
+        {params.displayType === "text" && (
           <>
-            <span className="addition-field-label" style={{ float: 'left' }}>
+            <span className="addition-field-label" style={{ float: "left" }}>
               {params.label}:
             </span>
-            <span className="addition-field-value" style={{ float: 'right', fontWeight: 600 }}>
+            <span className="addition-field-value" style={{ float: "right", fontWeight: 600 }}>
               {params.value}
             </span>
           </>
         )}
-        {params.displayType !== 'text' && <AutoField {...params} name="" />}
+        {params.displayType !== "text" && <AutoField {...params} name="" />}
       </div>
     );
   });
@@ -55,7 +55,7 @@ const VehicleFormSemantic = ({
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             showSearch
-            onSelect={(option) => setManufacturerName(option.text)}
+            onSelect={option => setManufacturerName(option.text)}
             resource={manufacturer.resource || ManufacturerResource.get}
             {...manufacturer}
           />
@@ -68,7 +68,7 @@ const VehicleFormSemantic = ({
             showSearch
             resource={model.resource || ModelResource.get}
             filters={{ manufacturerName }}
-            onSelect={(option) => {
+            onSelect={option => {
               setModelName(option.text);
               setModelId(option.id);
             }}
@@ -82,7 +82,7 @@ const VehicleFormSemantic = ({
             autocatalogsUrl={params.autocatalogsUrl}
             resource={body.resource || BodyResource.get}
             filters={{ modelName }}
-            onSelect={(option) => setBodyName(option.text)}
+            onSelect={option => setBodyName(option.text)}
             {...body}
           />
         </Grid.Column>
@@ -97,7 +97,7 @@ const VehicleFormSemantic = ({
               modelName,
               ...(bodyName && { bodyName }),
               ...(modelId && { modelId }),
-              ...params.modification?.filters
+              ...params.modification?.filters,
             }}
             showSearch
             {...modification}
@@ -128,7 +128,7 @@ const VehicleFormSemantic = ({
             <Dropdown
               resource={params.resource}
               autocatalogsUrl={params.autocatalogsUrl}
-              onSelect={(value) => {
+              onSelect={value => {
                 _onChange(params.name, value.value);
               }}
               {...params}
