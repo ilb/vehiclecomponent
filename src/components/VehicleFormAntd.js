@@ -21,21 +21,21 @@ import { useField, useForm } from "uniforms";
  * @constructor
  */
 const VehicleFormAntd = ({
-  manufacturerCol = 2,
-  modelCol=2,
-  manufacturerModelCol = 2,
-  bodyCol=2,
-  modificationCol=2,
-  steerLocationCol=2,
-  transmissionCol=2,
-  additionFieldsCol=2,
   gutter = [],
   fields = {},
   additionFields = [],
   onChange,
   params = {},
 }) => {
-  const { manufacturer, model, modification, body, transmission, steerLocation, manufacturerModel } = fields;
+  const {
+    manufacturer,
+    model,
+    modification,
+    body,
+    transmission,
+    steerLocation,
+    manufacturerModel,
+  } = fields;
   const [manufacturerField] = useField(fields.manufacturer.name, {});
   const [modelField] = useField(fields.model.name, {});
   const [bodyField] = useField(fields.model.body, { value: null });
@@ -45,6 +45,14 @@ const VehicleFormAntd = ({
   const [modelId, setModelId] = useState();
   const [modelName, setModelName] = useState(modelField.value || null);
   const [bodyName, setBodyName] = useState(bodyField.value || null);
+  // Design params
+  const manufacturerCol = manufacturer?.col || 2;
+  const modelCol = model?.col || 2;
+  const manufacturerModelCol = manufacturerModel?.col || 2;
+  const bodyCol = body?.col || 2;
+  const modificationCol = modification?.col || 2;
+  const steerLocationCol = steerLocation?.col || 2;
+  const transmissionCol = transmission?.col || 2;
 
   const _onChange = (name, value) => {
     onChange && onChange(name, value);
@@ -88,7 +96,10 @@ const VehicleFormAntd = ({
               setBodyName(null);
               if (modelField.value !== value) {
                 params.setFinalEstimation && params.setFinalEstimation("");
-                manufacturerModel && manufacturerModel.setManufacturerModelValue(`${manufacturerName} ${_params?.text}`);
+                manufacturerModel &&
+                  manufacturerModel.setManufacturerModelValue(
+                    `${manufacturerName} ${_params?.text}`,
+                  );
                 body && form.onChange(body.name, null);
                 modification && form.onChange(modification.name, null);
                 transmission && form.onChange(transmission.name, null);
@@ -102,7 +113,7 @@ const VehicleFormAntd = ({
         <Col span={24 / manufacturerModelCol}>
           <TextField
             onInput={event => {
-              manufacturerModel.setManufacturerModelValue(event.target.value)
+              manufacturerModel.setManufacturerModelValue(event.target.value);
             }}
             {...manufacturerModel}
           />
@@ -171,7 +182,7 @@ const VehicleFormAntd = ({
         </Col>
       )}
       {additionFields.map((params, key) => (
-        <Col key={key} span={24 / additionFieldsCol}>
+        <Col key={key} span={24 / 2}>
           {params.resource && (
             <Dropdown
               autocatalogsUrl={params.autocatalogsUrl}
