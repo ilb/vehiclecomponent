@@ -1,3 +1,4 @@
+/* eslint-disable n/no-missing-import -- Отключаем eslint n/no-missing-import */
 import localize from "ajv-i18n";
 import { JSONSchemaBridge } from "uniforms-bridge-json-schema";
 
@@ -5,8 +6,9 @@ import ajv from "./ajv";
 import ErrorFormatter from "./ErrorFormatter";
 
 /**
- * @param schema
- * @param additionalValidator
+ * @param {Object} schema
+ * @param {Function} additionalValidator
+ * @returns {Function}
  */
 const createValidator = (schema, additionalValidator) => {
   const validator = ajv.compile(schema);
@@ -28,12 +30,15 @@ const createValidator = (schema, additionalValidator) => {
       localize.ru(errors);
       return { details: ErrorFormatter.make(errors, schema) };
     }
+
+    return null;
   };
 };
 
 /**
- * @param schema
- * @param additionalValidator
+ * @param {Object} schema
+ * @param {Function} additionalValidator
+ * @returns {JSONSchemaBridge}
  */
 const createSchemaBridge = (schema, additionalValidator) => {
   const schemaValidator = createValidator(schema, additionalValidator);
@@ -42,3 +47,4 @@ const createSchemaBridge = (schema, additionalValidator) => {
 };
 
 export default createSchemaBridge;
+/* eslint-enable n/no-missing-import -- Возвращаем eslint n/no-missing-import */

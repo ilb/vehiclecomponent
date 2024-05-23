@@ -3,8 +3,9 @@ import Resource from "./Resource.mjs";
 
 export default class BodyResource extends Resource {
   /**
-   * @param filters
-   * @param autocatalogsUrl
+   * @param {Object} filters
+   * @param {string} autocatalogsUrl
+   * @returns {Promise<BodyResource[]>}
    */
   static async get(filters, autocatalogsUrl) {
     const result = await Api.get(

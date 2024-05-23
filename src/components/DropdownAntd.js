@@ -1,7 +1,22 @@
+/* eslint-disable no-unused-vars, no-param-reassign, unicorn/prefer-array-some -- Отключаем eslint no-unused-vars и no-param-reassign */
+import { useEffect, useState } from "react";
 import { connectField } from "uniforms";
 import { SelectField } from "uniforms-antd";
-import { useEffect, useState } from "react";
 
+/**
+ * @param {Object} root0
+ * @param {Function} root0.resource
+ * @param {Object} root0.filters
+ * @param {Function} root0.clientFilter
+ * @param {Function} root0.onSelect
+ * @param {Function} root0.onChange
+ * @param {Function} root0.onSetOptions
+ * @param {string} root0.value
+ * @param {boolean} root0.serverSearch
+ * @param {boolean} root0.showSearch
+ * @param {string} root0.autocatalogsUrl
+ * @returns {JSX.Element}
+ */
 const DropdownAntd = ({
   resource,
   filters = null,
@@ -21,6 +36,51 @@ const DropdownAntd = ({
   const [query, setQuery] = useState("");
   const [isLoadDatata, setLoadData] = useState(false);
 
+  /**
+   * @returns {boolean}
+   */
+  const filtersHasBeenChanged = () => prevFilters && JSON.stringify(filters) !== JSON.stringify(prevFilters);
+
+  /**
+   * @returns {boolean}
+   */
+  const filtersIsApplied = () => !!filters && !!Object.values(filters).filter(filter => filter !== null).length;
+
+  /**
+   * @param {Object} otherFilters
+   * @returns {Promise<Array>}
+   */
+  const getOptions = async otherFilters => resource(otherFilters, autocatalogsUrl);
+
+  /**
+   * @returns {Promise<void>}
+   */
+  const updateOptions = async () => {
+    setLoadData(true);
+    getOptions(filters)
+      .then(otherOptions => {
+        setOptions(otherOptions);
+        if (onSetOptions) {
+          onSetOptions(otherOptions);
+        }
+      })
+      .catch(console.error)
+      .finally(() => setLoadData(false));
+  };
+
+  /**
+   * @param {string} itemValue
+   * @returns {void}
+   */
+  const itemSelected = itemValue => {
+    if (onSelect) {
+      onSelect(
+        itemValue,
+        options.find(option => option.value === itemValue),
+      );
+    }
+  };
+
   useEffect(() => {
     if (resource && !filters) {
       updateOptions().catch(console.error);
@@ -36,7 +96,7 @@ const DropdownAntd = ({
 
   useEffect(() => {
     setPrevFilters({ ...filters, query });
-    if (value != defaultValue && !options.find(option => option.value === value)) {
+    if (value !== defaultValue && !options.find(option => option.value === value)) {
       onChange(null);
       return;
     }
@@ -50,40 +110,12 @@ const DropdownAntd = ({
     }
   }, [options, defaultValue]);
 
-  const filtersHasBeenChanged = () => {
-    return prevFilters && JSON.stringify(filters) !== JSON.stringify(prevFilters);
-  };
-
-  const filtersIsApplied = () => {
-    return !!filters && !!Object.values(filters).filter(filter => filter !== null).length;
-  };
-
-  const getOptions = async filters => {
-    return resource(filters, autocatalogsUrl);
-  };
-
-  const updateOptions = async () => {
-    setLoadData(true);
-    getOptions(filters)
-      .then(options => {
-        setOptions(options);
-        onSetOptions && onSetOptions(options);
-      })
-      .catch(console.error)
-      .finally(() => setLoadData(false));
-  };
-
-  const filterByInput = (input, option) => {
-    return option.text.toLowerCase().indexOf(input.toLowerCase().trim()) !== -1;
-  };
-
-  const itemSelected = value => {
-    onSelect &&
-      onSelect(
-        value,
-        options.find(option => option.value === value),
-      );
-  };
+  /**
+   * @param {string} input
+   * @param {Object} option
+   * @returns {boolean}
+   */
+  const filterByInput = (input, option) => option.text.toLowerCase().includes(input.toLowerCase().trim());
 
   return (
     <div className="vehiclecomponent-dropdown">
@@ -100,15 +132,17 @@ const DropdownAntd = ({
           showSearch={showSearch || serverSearch}
           options={options}
           loading={isLoadDatata}
-          onChange={value => {
-            onChange(value);
-            itemSelected(value);
+          onChange={changeValue => {
+            onChange(changeValue);
+            itemSelected(changeValue);
           }}
           onDeselect={() => {
             onChange(null);
           }}
-          onSearch={query => {
-            if (serverSearch) setQuery(query || "");
+          onSearch={searchQuery => {
+            if (serverSearch) {
+              setQuery(searchQuery || "");
+            }
           }}
           filterOption={(input, option) => {
             if (serverSearch) {
@@ -126,3 +160,4 @@ const DropdownAntd = ({
 };
 
 export default connectField(DropdownAntd);
+/* eslint-enable no-unused-vars, no-param-reassign, unicorn/prefer-array-some -- Возвращаем названия переменных */

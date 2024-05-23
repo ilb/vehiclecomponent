@@ -3,8 +3,9 @@ import Resource from "./Resource.mjs";
 
 export default class ModificationResource extends Resource {
   /**
-   * @param filters
-   * @param autocatalogsUrl
+   * @param {Object} filters
+   * @param {string} autocatalogsUrl
+   * @returns {Promise<ModificationResource[]>}
    */
   static async get(filters, autocatalogsUrl) {
     if (!filters.modelName || !filters.modelId) {
@@ -17,6 +18,7 @@ export default class ModificationResource extends Resource {
         ...filters,
       },
     );
+
     return ModificationResource.map(result.body || []);
   }
 }

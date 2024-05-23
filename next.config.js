@@ -7,7 +7,7 @@ module.exports = {
     API_PATH: `${basePath}/api`,
   },
   /**
-   *
+   * @returns {Object}
    */
   rewrites() {
     return [

@@ -3,8 +3,9 @@ import Resource from "./Resource.mjs";
 
 export default class ModelResource extends Resource {
   /**
-   * @param filters
-   * @param autocatalogsUrl
+   * @param {Object} filters
+   * @param {string} autocatalogsUrl
+   * @returns {Promise<ModelResource[]>}
    */
   static async get(filters, autocatalogsUrl) {
     const result = await Api.get(
