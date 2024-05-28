@@ -3,8 +3,8 @@ import fetch from "cross-fetch";
 export default class Api {
   /**
    * get-запрос
-   * @param url
-   * @param data
+   * @param {string} url
+   * @param {object} data
    * @returns {Promise<*>}
    */
   static async get(url, data = {}) {
@@ -12,43 +12,46 @@ export default class Api {
   }
 
   /**
-   * @param url
-   * @param method
-   * @param data
+   *
+   * @param {string} url
+   * @param {string} method
+   * @param {string} data
+   * @return {Object}
    */
   static async execute(url, method, data) {
-    this.prepareData(data);
     const link = this.prepareUrl(url, method, data);
-    const params = this.prepareParams(link, method, data);
+    const params = this.prepareParams(method, data);
     const response = await fetch(link, params);
 
     return this.handleResponse(response);
   }
 
   /**
-   * @param url
-   * @param method
-   * @param data
+   * @param {string} url
+   * @param {string} method
+   * @param {object} data
+   * @returns {string}
    */
   static prepareUrl(url, method, data) {
     if (!this.isValidHttpUrl(url)) {
       // если часть урлы, то к ней добавляется API_PATH, елси полная то используется как есть
       url = process.env.API_PATH + url;
     }
-
-    if (method === "GET" && data) {
-      url = `${url}?${new URLSearchParams(data).toString()}`;
+    const searchParams = this.prepareData(data);
+    if (method === "GET" && Object.keys(searchParams).length) {
+      url = `${url}?${new URLSearchParams(searchParams).toString()}`;
     }
 
     return url;
   }
 
   /**
-   * @param url
-   * @param method
-   * @param data
+   * @param {string} url
+   * @param {string} method
+   * @param {Object} data
+   * @returns {Object}
    */
-  static prepareParams(url, method, data) {
+  static prepareParams(method, data) {
     const params = { method };
 
     if (method !== "GET" && data) {
@@ -59,7 +62,8 @@ export default class Api {
   }
 
   /**
-   * @param res
+   * @param {Response} res
+   * @returns {Object}
    */
   static async handleResponse(res) {
     let body;
@@ -74,7 +78,8 @@ export default class Api {
   }
 
   /**
-   * @param string
+   * @param {string} string
+   * @returns {boolean}
    */
   static async isValidHttpUrl(string) {
     let url;
@@ -88,13 +93,16 @@ export default class Api {
   }
 
   /**
-   * @param {any} data
+   * Мутод фильтрует обьект параметров
+   * @param {Object} searchParams
+   * @returns {Object}
    */
-  static prepareData(data) {
-    for (const key in data) {
-      if ([null, undefined, ""].includes(data[key])) {
-        delete data[key];
+  static prepareData(searchParams) {
+    Object.entries(searchParams).forEach(([key, value]) => {
+      if (!key || !value) {
+        delete searchParams[key];
       }
-    }
+    });
+    return searchParams;
   }
 }
