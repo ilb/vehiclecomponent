@@ -41,7 +41,6 @@ export default class Api {
     if (method === "GET" && Object.keys(searchParams).length) {
       url = `${url}?${new URLSearchParams(searchParams).toString()}`;
     }
-
     return url;
   }
 
@@ -98,11 +97,15 @@ export default class Api {
    * @returns {Object}
    */
   static prepareData(searchParams) {
-    Object.entries(searchParams).forEach(([key, value]) => {
-      if (!key || !value) {
-        delete searchParams[key];
-      }
-    });
-    return searchParams;
+    const result = {};
+    if (searchParams) {
+      Object.entries(searchParams).forEach(([key, value]) => {
+        if (key && value) {
+          result[key] = value;
+        }
+      });
+      return result;
+    }
+    return result;
   }
 }
