@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign, no-undefined, no-unused-vars -- Отключаем eslint no-param-reassign, no-undefined, no-unused-vars */
+/* eslint-disable no-param-reassign, no-unused-vars -- Отключаем eslint no-param-reassign, no-undefined, no-unused-vars */
 import fetch from "cross-fetch";
 
 export default class Api {
@@ -15,13 +15,12 @@ export default class Api {
   /**
    * @param {string} url
    * @param {string} method
-   * @param {Object} fetchData
-   * @returns {Promise<*>}
+   * @param {string} fetchData
+   * @returns {Object}
    */
   static async execute(url, method, fetchData) {
-    this.prepareData(fetchData);
     const link = this.prepareUrl(url, method, fetchData);
-    const params = this.prepareParams(link, method, fetchData);
+    const params = this.prepareParams(method, fetchData);
     const response = await fetch(link, params);
 
     return this.handleResponse(response);
@@ -38,21 +37,20 @@ export default class Api {
       // если часть урлы, то к ней добавляется API_PATH, елси полная то используется как есть
       url = process.env.API_PATH + url;
     }
+    const searchParams = this.prepareData(fetchData);
 
-    if (method === "GET" && fetchData) {
-      url = `${url}?${new URLSearchParams(fetchData).toString()}`;
+    if (method === "GET" && Object.keys(searchParams).length) {
+      url = `${url}?${new URLSearchParams(searchParams).toString()}`;
     }
-
     return url;
   }
 
   /**
-   * @param {string} url
    * @param {string} method
    * @param {Object} fetchData
    * @returns {Object}
    */
-  static prepareParams(url, method, fetchData) {
+  static prepareParams(method, fetchData) {
     const params = { method };
 
     if (method !== "GET" && fetchData) {
@@ -94,17 +92,22 @@ export default class Api {
   }
 
   /**
-   * @param {Object} fetchData
+   * Метод фильтрует обьект параметров
+   * @param {Object} searchParams
    * @returns {Object}
    */
-  static prepareData(fetchData) {
-    for (const key in fetchData) {
-      if ([null, undefined, ""].includes(fetchData[key])) {
-        delete fetchData[key];
-      }
-    }
+  static prepareData(searchParams) {
+    const result = {};
 
-    return null;
+    if (searchParams) {
+      Object.entries(searchParams).forEach(([key, value]) => {
+        if (key && value) {
+          result[key] = value;
+        }
+      });
+      return result;
+    }
+    return result;
   }
 }
-/* eslint-enable no-param-reassign, no-undefined, no-unused-vars -- Возвращаем eslint no-param-reassign, no-undefined, no-unused-vars */
+/* eslint-enable no-param-reassign, no-unused-vars -- Возвращаем eslint no-param-reassign, no-undefined, no-unused-vars */
