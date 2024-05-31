@@ -1,7 +1,20 @@
-import { connectField } from "uniforms";
+/* eslint-disable no-unused-vars, no-param-reassign, unicorn/prefer-array-some -- Отключаем eslint no-unused-vars и no-param-reassign */
 import { useEffect, useState } from "react";
 import { Dropdown, Form } from "semantic-ui-react";
+import { connectField } from "uniforms";
 
+/**
+ * @param {Object} root0
+ * @param {Function} root0.resource
+ * @param {Object} root0.filters
+ * @param {Function} root0.onSelect
+ * @param {Function} root0.onChange
+ * @param {string} root0.value
+ * @param {boolean} root0.serverSearch
+ * @param {boolean} root0.showSearch
+ * @param {string} root0.autocatalogsUrl
+ * @returns {JSX.Element}
+ */
 const DropdownSemantic = ({
   resource,
   filters = null,
@@ -19,6 +32,30 @@ const DropdownSemantic = ({
   const [query, setQuery] = useState("");
   const [isLoadDatata, setLoadData] = useState(false);
 
+  /**
+   * @param {Object} otherFilters
+   * @returns {Promise<void>}
+   */
+  const getOptions = async otherFilters => {
+    setLoadData(true);
+    resource(otherFilters, autocatalogsUrl)
+      .then(res => {
+        setOptions(res);
+      })
+      .catch(console.error)
+      .finally(() => setLoadData(false));
+  };
+
+  /**
+   * @returns {boolean}
+   */
+  const filtersHasBeenChanged = () => prevFilters && JSON.stringify(filters) !== JSON.stringify(prevFilters);
+
+  /**
+   * @returns {boolean}
+   */
+  const filtersIsApplied = () => !!filters && !!Object.values(filters).filter(filter => filter !== null).length;
+
   useEffect(async () => {
     if (resource && !filters) {
       setOptions(await getOptions(filters));
@@ -31,6 +68,17 @@ const DropdownSemantic = ({
       getOptions(filters).catch(console.error);
     }
   }, [filters, query]);
+
+  /**
+   * @param {string} otherValue
+   * @param {Array} otherOptions
+   * @returns {void}
+   */
+  const itemSelected = (otherValue, otherOptions) => {
+    if (onSelect) {
+      onSelect(otherOptions.find(option => option.value === otherValue));
+    }
+  };
 
   useEffect(() => {
     setPrevFilters({ ...filters, query });
@@ -45,27 +93,6 @@ const DropdownSemantic = ({
     }
   }, [options]);
 
-  const filtersHasBeenChanged = () => {
-    return prevFilters && JSON.stringify(filters) !== JSON.stringify(prevFilters);
-  };
-
-  const filtersIsApplied = () => {
-    return !!filters && !!Object.values(filters).filter(filter => filter !== null).length;
-  };
-
-  const getOptions = async filters => {
-    setLoadData(true);
-    resource(filters, autocatalogsUrl)
-      .then(res => {
-        setOptions(res);
-      })
-      .catch(console.error)
-      .finally(() => setLoadData(false));
-  };
-
-  const itemSelected = (value, options) => {
-    onSelect && onSelect(options.find(option => option.value === value));
-  };
 
   return (
     <div>
@@ -89,15 +116,15 @@ const DropdownSemantic = ({
             error={!!params.error && params.error.message}
             selection
             value={currentValue}
-            options={options?.map(({ label, ...data }) => data)}
-            onChange={(event, data) => {
-              setCurrentValue(data.value);
-              onChange(data.value);
-              itemSelected(data.value, data.options);
+            options={options?.map(({ label, ...option }) => option)}
+            onChange={(event, changeData) => {
+              setCurrentValue(changeData.value);
+              onChange(changeData.value);
+              itemSelected(changeData.value, changeData.options);
             }}
-            onSearchChange={query => {
+            onSearchChange={otherQuery => {
               if (serverSearch) {
-                setQuery(query);
+                setQuery(otherQuery);
               }
             }}
           />
@@ -115,3 +142,4 @@ const DropdownSemantic = ({
 };
 
 export default connectField(DropdownSemantic);
+/* eslint-enable no-unused-vars, no-param-reassign, unicorn/prefer-array-some -- Возвращаем eslint no-unused-vars и no-param-reassign */

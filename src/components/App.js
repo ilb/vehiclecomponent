@@ -1,10 +1,15 @@
+/* eslint-disable no-unused-vars, n/no-missing-import -- Отключаем eslint no-unused-vars */
 import { Card, Divider, Layout, Typography } from "antd";
+import { useState } from "react";
 import { AutoForm, SubmitField, TextField } from "uniforms-antd";
+
+import { VehicleForm as VehicleFormAntd } from "../antd";
 import createSchemaBridge from "../libs/uniforms-bridge.mjs";
 import { VehicleForm as VehicleFormSemantic } from "../semantic";
-import { VehicleForm as VehicleFormAntd } from "../antd";
-import { useState } from "react";
 
+/**
+ * @returns {React.ReactNode}
+ */
 export default function App() {
   const [manufacturerModelValue, setManufacturerModelValue] = useState("vaz_(lada) niva_travel");
   const [model] = useState({
@@ -42,8 +47,9 @@ export default function App() {
               controls={false}
               value={year}
               onChangeCapture={event => {
-                const year = event.target.value;
-                setVehicleYear(year);
+                const eventValue = event.target.value;
+
+                setVehicleYear(eventValue);
               }}
             />
             <Typography.Title level={3}>Antd</Typography.Title>
@@ -95,3 +101,4 @@ export default function App() {
     </Layout>
   );
 }
+/* eslint-enable no-unused-vars, n/no-missing-import -- Возвращаем названия переменных */

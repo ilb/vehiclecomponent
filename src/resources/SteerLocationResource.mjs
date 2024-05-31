@@ -2,7 +2,7 @@ import Resource from "./Resource.mjs";
 
 export default class SteerLocationResource extends Resource {
   /**
-   *
+   * @returns {Promise<SteerLocationResource[]>}
    */
   static async get() {
     const rows = [

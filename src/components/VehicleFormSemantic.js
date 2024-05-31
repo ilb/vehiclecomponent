@@ -1,15 +1,26 @@
+/* eslint-disable no-unused-vars, n/no-missing-import -- Отключаем eslint no-unused-vars и n/no-missing-import */
 import { useState } from "react";
-import Dropdown from "./DropdownSemantic";
+import { Grid } from "semantic-ui-react";
+import { connectField, useField } from "uniforms";
+import { AutoField } from "uniforms-semantic";
+
+import BodyResource from "../resources/BodyResource.mjs";
 import ManufacturerResource from "../resources/ManufacturerResource.mjs";
 import ModelResource from "../resources/ModelResource.mjs";
 import ModificationResource from "../resources/ModificationResource.mjs";
-import BodyResource from "../resources/BodyResource.mjs";
 import SteerLocationResource from "../resources/SteerLocationResource.mjs";
-import { Grid } from "semantic-ui-react";
 import TransmissionResource from "../resources/TransmissionResource.mjs";
-import { AutoField } from "uniforms-semantic";
-import { connectField, useField } from "uniforms";
+import Dropdown from "./DropdownSemantic";
 
+/**
+ * @param {Object} root0
+ * @param {number} root0.cols
+ * @param {Object} root0.fields
+ * @param {Array} root0.additionFields
+ * @param {Function} root0.onChange
+ * @param {Object} root0.params
+ * @returns {JSX.Element}
+ */
 const VehicleFormSemantic = ({
   cols = 2,
   fields = {},
@@ -26,27 +37,30 @@ const VehicleFormSemantic = ({
   const [modelName, setModelName] = useState(modelField.value || null);
   const [bodyName, setBodyName] = useState(bodyField.value || null);
 
-  const _onChange = (name, value) => {
+  /**
+   * @param {string} name
+   * @param {string} value
+   * @returns {void}
+   */
+  const otherOnChange = (name, value) => {
     onChange(name, value);
   };
 
-  const AdditionField = connectField(params => {
-    return (
-      <div>
-        {params.displayType === "text" && (
-          <>
-            <span className="addition-field-label" style={{ float: "left" }}>
-              {params.label}:
-            </span>
-            <span className="addition-field-value" style={{ float: "right", fontWeight: 600 }}>
-              {params.value}
-            </span>
-          </>
-        )}
-        {params.displayType !== "text" && <AutoField {...params} name="" />}
-      </div>
-    );
-  });
+  const AdditionField = connectField(otherParams => (
+    <div>
+      {otherParams.displayType === "text" && (
+        <>
+          <span className="addition-field-label" style={{ float: "left" }}>
+            {otherParams.label}:
+          </span>
+          <span className="addition-field-value" style={{ float: "right", fontWeight: 600 }}>
+            {otherParams.value}
+          </span>
+        </>
+      )}
+      {otherParams.displayType !== "text" && <AutoField {...otherParams} name="" />}
+    </div>
+  ));
 
   return (
     <Grid columns={cols}>
@@ -122,14 +136,14 @@ const VehicleFormSemantic = ({
           />
         </Grid.Column>
       )}
-      {additionFields.map((params, key) => (
+      {additionFields.map((otherParams, key) => (
         <Grid.Column key={key}>
-          {params.resource && (
+          {otherParams.resource && (
             <Dropdown
-              resource={params.resource}
-              autocatalogsUrl={params.autocatalogsUrl}
+              resource={otherParams.resource}
+              autocatalogsUrl={otherParams.autocatalogsUrl}
               onSelect={value => {
-                _onChange(params.name, value.value);
+                otherOnChange(otherParams.name, value.value);
               }}
               {...params}
             />
@@ -144,3 +158,4 @@ const VehicleFormSemantic = ({
 };
 
 export default VehicleFormSemantic;
+/* eslint-enable no-unused-vars, n/no-missing-import -- Возвращаем eslint no-unused-vars и n/no-missing-import */

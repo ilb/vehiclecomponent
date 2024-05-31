@@ -1,18 +1,21 @@
+/* eslint-disable no-unused-vars, iconicompany/avoid-naming -- Отключаем eslint no-unused-vars и iconicompany/avoid-naming */
 export default class Resource {
   path = "";
 
   /**
-   * @param filters
-   * @param autocatalogsUrl
+   * @param {Object} filters
+   * @param {string} autocatalogsUrl
+   * @returns {Promise<Resource[]>}
    */
   static async get(filters, autocatalogsUrl) {}
 
   /**
-   * @param rows
+   * @param {Object[]} rows
+   * @returns {Object[]}
    */
   static map(rows) {
     return rows.map(row => {
-      const { id, name, code, ...data } = row;
+      const { id, name, code, ...overData } = row;
 
       return {
         id,
@@ -20,8 +23,9 @@ export default class Resource {
         label: name,
         text: name,
         value: code,
-        data,
+        data: overData,
       };
     });
   }
 }
+/* eslint-enable no-unused-vars, iconicompany/avoid-naming -- Возвращаем eslint no-unused-vars и iconicompany/avoid-naming */

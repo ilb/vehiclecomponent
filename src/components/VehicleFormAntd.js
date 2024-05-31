@@ -1,23 +1,26 @@
-import Dropdown from "./DropdownAntd";
+/* eslint-disable no-unused-vars, n/no-missing-import, no-underscore-dangle, no-unused-expressions, iconicompany/avoid-naming -- Отключаем eslint no-unused-vars, n/no-missing-import, no-underscore-dangle, no-unused-expressions */
 import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
+import { useState } from "react";
+import { useField, useForm } from "uniforms";
+import { AutoField, TextField } from "uniforms-antd";
+
+import BodyResource from "../resources/BodyResource.mjs";
 import ManufacturerResource from "../resources/ManufacturerResource.mjs";
 import ModelResource from "../resources/ModelResource.mjs";
 import ModificationResource from "../resources/ModificationResource.mjs";
-import BodyResource from "../resources/BodyResource.mjs";
-import { useState } from "react";
 import SteerLocationResource from "../resources/SteerLocationResource.mjs";
 import TransmissionResource from "../resources/TransmissionResource.mjs";
-import { AutoField, TextField } from "uniforms-antd";
-import { useField, useForm } from "uniforms";
+import Dropdown from "./DropdownAntd";
 
 /**
- * @param {int} cols
- * @param {object} fields
- * @param {array} additionFields
- * @param onChange
- * @param {{autocatalogsUrl}} params
- * @return {JSX.Element}
+ * @param {Object} root0
+ * @param {Object} root0.gutter
+ * @param {Object} root0.fields
+ * @param {Array} root0.additionFields
+ * @param {Function} root0.onChange
+ * @param {Object} root0.params
+ * @returns {JSX.Element}
  * @constructor
  */
 const VehicleFormAntd = ({
@@ -54,8 +57,15 @@ const VehicleFormAntd = ({
   const steerLocationCol = steerLocation?.col || 2;
   const transmissionCol = transmission?.col || 2;
 
+  /**
+   * @param {string} name
+   * @param {string} value
+   * @returns {void}
+   */
   const _onChange = (name, value) => {
-    onChange && onChange(name, value);
+    if (onChange) {
+      onChange(name, value);
+    }
   };
 
   return (
@@ -125,8 +135,8 @@ const VehicleFormAntd = ({
             autocatalogsUrl={params.autocatalogsUrl}
             resource={body.resource || BodyResource.get}
             filters={{ modelName }}
-            onSelect={(value, params) => {
-              setBodyName(params?.text);
+            onSelect={(value, otherParams) => {
+              setBodyName(otherParams?.text);
               _onChange(body.name, value);
             }}
             {...body}
@@ -181,16 +191,16 @@ const VehicleFormAntd = ({
           />
         </Col>
       )}
-      {additionFields.map((params, key) => (
+      {additionFields.map((otherParams, key) => (
         <Col key={key} span={24 / 2}>
-          {params.resource && (
+          {otherParams.resource && (
             <Dropdown
-              autocatalogsUrl={params.autocatalogsUrl}
-              resource={params.resource}
+              autocatalogsUrl={otherParams.autocatalogsUrl}
+              resource={otherParams.resource}
               onSelect={value => {
-                _onChange(params.name, value);
+                _onChange(otherParams.name, value);
               }}
-              {...params}
+              {...otherParams}
             />
           )}
           {!params.resource && (
@@ -205,3 +215,4 @@ const VehicleFormAntd = ({
 };
 
 export default VehicleFormAntd;
+/* eslint-enable no-unused-vars, n/no-missing-import, no-underscore-dangle, no-unused-expressions, iconicompany/avoid-naming -- Возвращаем eslint no-unused-vars и n/no-missing-import */

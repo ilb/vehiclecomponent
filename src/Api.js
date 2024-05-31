@@ -1,26 +1,26 @@
+/* eslint-disable no-param-reassign, no-unused-vars -- Отключаем eslint no-param-reassign, no-undefined, no-unused-vars */
 import fetch from "cross-fetch";
 
 export default class Api {
   /**
    * get-запрос
    * @param {string} url
-   * @param {object} data
+   * @param {Object} fetchData
    * @returns {Promise<*>}
    */
-  static async get(url, data = {}) {
-    return this.execute(url, "GET", data);
+  static async get(url, fetchData = {}) {
+    return this.execute(url, "GET", fetchData);
   }
 
   /**
-   *
    * @param {string} url
    * @param {string} method
-   * @param {string} data
-   * @return {Object}
+   * @param {string} fetchData
+   * @returns {Object}
    */
-  static async execute(url, method, data) {
-    const link = this.prepareUrl(url, method, data);
-    const params = this.prepareParams(method, data);
+  static async execute(url, method, fetchData) {
+    const link = this.prepareUrl(url, method, fetchData);
+    const params = this.prepareParams(method, fetchData);
     const response = await fetch(link, params);
 
     return this.handleResponse(response);
@@ -29,15 +29,16 @@ export default class Api {
   /**
    * @param {string} url
    * @param {string} method
-   * @param {object} data
+   * @param {Object} fetchData
    * @returns {string}
    */
-  static prepareUrl(url, method, data) {
+  static prepareUrl(url, method, fetchData) {
     if (!this.isValidHttpUrl(url)) {
       // если часть урлы, то к ней добавляется API_PATH, елси полная то используется как есть
       url = process.env.API_PATH + url;
     }
-    const searchParams = this.prepareData(data);
+    const searchParams = this.prepareData(fetchData);
+
     if (method === "GET" && Object.keys(searchParams).length) {
       url = `${url}?${new URLSearchParams(searchParams).toString()}`;
     }
@@ -45,16 +46,15 @@ export default class Api {
   }
 
   /**
-   * @param {string} url
    * @param {string} method
-   * @param {Object} data
+   * @param {Object} fetchData
    * @returns {Object}
    */
-  static prepareParams(method, data) {
+  static prepareParams(method, fetchData) {
     const params = { method };
 
-    if (method !== "GET" && data) {
-      params.body = JSON.stringify(data);
+    if (method !== "GET" && fetchData) {
+      params.body = JSON.stringify(fetchData);
     }
 
     return params;
@@ -62,7 +62,7 @@ export default class Api {
 
   /**
    * @param {Response} res
-   * @returns {Object}
+   * @returns {Promise<{ok: boolean, body: string}>}
    */
   static async handleResponse(res) {
     let body;
@@ -85,19 +85,20 @@ export default class Api {
 
     try {
       url = new URL(string);
-    } catch (_) {
+    } catch (e) {
       return false;
     }
     return url.protocol === "http:" || url.protocol === "https:";
   }
 
   /**
-   * Мутод фильтрует обьект параметров
+   * Метод фильтрует обьект параметров
    * @param {Object} searchParams
    * @returns {Object}
    */
   static prepareData(searchParams) {
     const result = {};
+
     if (searchParams) {
       Object.entries(searchParams).forEach(([key, value]) => {
         if (key && value) {
@@ -109,3 +110,4 @@ export default class Api {
     return result;
   }
 }
+/* eslint-enable no-param-reassign, no-unused-vars -- Возвращаем eslint no-param-reassign, no-undefined, no-unused-vars */

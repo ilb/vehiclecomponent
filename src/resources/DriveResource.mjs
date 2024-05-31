@@ -3,12 +3,13 @@ import Resource from "./Resource.mjs";
 
 export default class DriveResource extends Resource {
   /**
-   * @param filters
-   * @param autocatalogsUrl
+   * @param {Object} filters
+   * @param {string} autocatalogsUrl
+   * @returns {Promise<DriveResource[]>}
    */
   static async get(filters, autocatalogsUrl) {
     const result = await Api.get(
-      autocatalogsUrl ? `${autocatalogsUrl}/drives` : "/autocatalogs/drives"
+      autocatalogsUrl ? `${autocatalogsUrl}/drives` : "/autocatalogs/drives",
     );
 
     return DriveResource.map(result.body || []);
