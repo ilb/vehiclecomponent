@@ -11,9 +11,9 @@ import { VehicleForm as VehicleFormSemantic } from "../semantic";
  * @returns {React.ReactNode}
  */
 export default function App() {
-  const [manufacturerModelValue, setManufacturerModelValue] = useState("vaz_(lada) niva_travel");
+  const [manufacturerModelValue, setManufacturerModelValue] = useState("vaz_lada niva_travel");
   const [model] = useState({
-    vehicleManufacturer: "vaz_(lada)",
+    vehicleManufacturer: "vaz_lada",
     vehicleModel: "niva_travel",
     vehicleModification: 45575,
   });
@@ -77,23 +77,7 @@ export default function App() {
             />
             <Divider />
             <Typography.Title level={3}>Semantic</Typography.Title>
-            <VehicleFormSemantic
-              params={{
-                autocatalogsUrl: "https://bb.avclick.ru/autocatalogstest/api",
-                modification: {
-                  ...(year && { filters: { year } }),
-                },
-              }}
-              name=""
-              fields={{
-                manufacturer: { name: "vehicleManufacturer" },
-                model: { name: "vehicleModel" },
-                modification: { name: "vehicleModification" },
-                body: { name: "vehicleBody" },
-                transmission: { name: "vehicleTransmission" },
-                steerLocation: { name: "vehicleSteerLocation" },
-              }}
-            />
+
             <SubmitField />
           </AutoForm>
         </div>

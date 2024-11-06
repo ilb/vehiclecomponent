@@ -39,12 +39,14 @@ const DropdownAntd = ({
   /**
    * @returns {boolean}
    */
-  const filtersHasBeenChanged = () => prevFilters && JSON.stringify(filters) !== JSON.stringify(prevFilters);
+  const filtersHasBeenChanged = () =>
+    prevFilters && JSON.stringify(filters) !== JSON.stringify(prevFilters);
 
   /**
    * @returns {boolean}
    */
-  const filtersIsApplied = () => !!filters && !!Object.values(filters).filter(filter => filter !== null).length;
+  const filtersIsApplied = () =>
+    !!filters && !!Object.values(filters).filter(filter => filter !== null).length;
 
   /**
    * @param {Object} otherFilters
@@ -57,6 +59,7 @@ const DropdownAntd = ({
    */
   const updateOptions = async () => {
     setLoadData(true);
+
     getOptions(filters)
       .then(otherOptions => {
         setOptions(otherOptions);
@@ -96,6 +99,7 @@ const DropdownAntd = ({
 
   useEffect(() => {
     setPrevFilters({ ...filters, query });
+
     if (value !== defaultValue && !options.find(option => option.value === value)) {
       onChange(null);
       return;
@@ -115,7 +119,8 @@ const DropdownAntd = ({
    * @param {Object} option
    * @returns {boolean}
    */
-  const filterByInput = (input, option) => option.text.toLowerCase().includes(input.toLowerCase().trim());
+  const filterByInput = (input, option) =>
+    option.text.toLowerCase().includes(input.toLowerCase().trim());
 
   return (
     <div className="vehiclecomponent-dropdown">
