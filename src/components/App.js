@@ -5,18 +5,13 @@ import { AutoForm, SubmitField, TextField } from "uniforms-antd";
 
 import { VehicleForm as VehicleFormAntd } from "../antd";
 import createSchemaBridge from "../libs/uniforms-bridge.mjs";
-import { VehicleForm as VehicleFormSemantic } from "../semantic";
 
 /**
  * @returns {React.ReactNode}
  */
 export default function App() {
-  const [manufacturerModelValue, setManufacturerModelValue] = useState("vaz_lada niva_travel");
-  const [model] = useState({
-    vehicleManufacturer: "vaz_lada",
-    vehicleModel: "niva_travel",
-    vehicleModification: 45575,
-  });
+  const [manufacturerModelValue, setManufacturerModelValue] = useState("");
+  const [model] = useState({});
   const [year, setVehicleYear] = useState();
 
   return (
