@@ -5,6 +5,7 @@ import { AutoForm, SubmitField, TextField } from "uniforms-antd";
 
 import { VehicleForm as VehicleFormAntd } from "../antd";
 import createSchemaBridge from "../libs/uniforms-bridge.mjs";
+import { VehicleForm as VehicleFormSemantic } from "../semantic";
 
 /**
  * @returns {React.ReactNode}
@@ -72,7 +73,23 @@ export default function App() {
             />
             <Divider />
             <Typography.Title level={3}>Semantic</Typography.Title>
-
+            <VehicleFormSemantic
+              params={{
+                autocatalogsUrl: "https://bb.avclick.ru/autocatalogstest/api",
+                modification: {
+                  ...(year && { filters: { year } }),
+                },
+              }}
+              name=""
+              fields={{
+                manufacturer: { name: "vehicleManufacturer" },
+                model: { name: "vehicleModel" },
+                modification: { name: "vehicleModification" },
+                body: { name: "vehicleBody" },
+                transmission: { name: "vehicleTransmission" },
+                steerLocation: { name: "vehicleSteerLocation" },
+              }}
+            />{" "}
             <SubmitField />
           </AutoForm>
         </div>
