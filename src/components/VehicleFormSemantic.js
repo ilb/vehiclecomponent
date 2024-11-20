@@ -36,6 +36,7 @@ const VehicleFormSemantic = ({
   const [modelId, setModelId] = useState();
   const [modelName, setModelName] = useState(modelField.value || null);
   const [bodyName, setBodyName] = useState(bodyField.value || null);
+
   const [manufacturerCode, setManufacturerCode] = useState(manufacturerField.value || null);
   const [modelCode, setModelCode] = useState(modelField.value || null);
   const [bodyCode, setBodyCode] = useState(bodyField.value || null);
@@ -73,7 +74,7 @@ const VehicleFormSemantic = ({
             showSearch
             onSelect={option => {
               setManufacturerName(option.text);
-              setManufacturerCode(option.code);
+              setManufacturerCode(option.value);
             }}
             resource={manufacturer.resource || ManufacturerResource.get}
             {...manufacturer}
@@ -90,7 +91,7 @@ const VehicleFormSemantic = ({
             onSelect={option => {
               setModelName(option.text);
               setModelId(option.id);
-              setModelCode(option.code);
+              setModelCode(option.value);
             }}
             {...model}
           />
@@ -104,7 +105,7 @@ const VehicleFormSemantic = ({
             filters={{ modelName, modelCode }}
             onSelect={option => {
               setBodyName(option.text);
-              setBodyCode(option.code);
+              setBodyCode(option.value);
             }}
             {...body}
           />
