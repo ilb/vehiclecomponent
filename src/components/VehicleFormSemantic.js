@@ -111,6 +111,7 @@ const VehicleFormSemantic = ({
             resource={modification.resource || ModificationResource.get}
             filters={{
               modelCode,
+              manufacturerCode,
               ...(bodyCode && { bodyCode }),
               ...params.modification?.filters,
             }}

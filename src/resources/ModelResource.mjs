@@ -8,8 +8,13 @@ export default class ModelResource extends Resource {
    * @returns {Promise<ModelResource[]>}
    */
   static async get(filters, autocatalogsUrl) {
-    const result = await Api.get(`${autocatalogsUrl}/models`, filters);
+    const { manufacturerCode } = filters;
 
-    return ModelResource.map(result.body || []);
+    if (manufacturerCode) {
+      const result = await Api.get(`${autocatalogsUrl}/models`, { manufacturerCode });
+
+      return ModelResource.map(result.body || []);
+    }
+    return [];
   }
 }

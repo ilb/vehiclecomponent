@@ -8,10 +8,14 @@ export default class ModificationResource extends Resource {
    * @returns {Promise<ModificationResource[]>}
    */
   static async get(filters, autocatalogsUrl) {
-    if (filters.modelCode) {
+    const { manufacturerCode, modelCode, year } = filters;
+
+    if (manufacturerCode && modelCode) {
       const result = await Api.get(`${autocatalogsUrl}/modifications`, {
         withTransmission: true,
-        ...filters,
+        manufacturerCode,
+        modelCode,
+        ...(year && { year }),
       });
 
       return ModificationResource.map(result.body || []);
