@@ -149,6 +149,7 @@ const VehicleFormAntd = ({
             autocatalogsUrl={params.autocatalogsUrl}
             resource={modification.resource || ModificationResource.get}
             filters={{
+              manufacturerCode,
               modelCode,
               ...(bodyCode && { bodyCode }),
               ...params.modification?.filters,
