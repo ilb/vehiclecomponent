@@ -8,10 +8,7 @@ export default class ManufacturerResource extends Resource {
    * @returns {Promise<ManufacturerResource[]>}
    */
   static async get(filters, autocatalogsUrl) {
-    const result = await Api.get(
-      autocatalogsUrl ? `${autocatalogsUrl}/manufacturers` : "/autocatalogs/manufacturers",
-      filters,
-    );
+    const result = await Api.get(`${autocatalogsUrl}/manufacturers`, filters);
 
     return ManufacturerResource.map(result.body || []);
   }

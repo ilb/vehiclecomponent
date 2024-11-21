@@ -8,9 +8,7 @@ export default class DriveResource extends Resource {
    * @returns {Promise<DriveResource[]>}
    */
   static async get(filters, autocatalogsUrl) {
-    const result = await Api.get(
-      autocatalogsUrl ? `${autocatalogsUrl}/drives` : "/autocatalogs/drives",
-    );
+    const result = await Api.get(`${autocatalogsUrl}/drives`);
 
     return DriveResource.map(result.body || []);
   }

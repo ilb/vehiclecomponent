@@ -8,9 +8,7 @@ export default class BodyResource extends Resource {
    * @returns {Promise<BodyResource[]>}
    */
   static async get(filters, autocatalogsUrl) {
-    const result = await Api.get(
-      autocatalogsUrl ? `${autocatalogsUrl}/bodies` : "/autocatalogs/bodies",
-    );
+    const result = await Api.get(`${autocatalogsUrl}/bodies`);
 
     return BodyResource.map(result.body || []);
   }

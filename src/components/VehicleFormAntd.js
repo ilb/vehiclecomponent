@@ -45,9 +45,6 @@ const VehicleFormAntd = ({
   const [modificationField] = useField(fields.modification.name, {});
   const form = useForm();
   const [manufacturerName, setManufacturerName] = useState(manufacturerField.value || null);
-  const [modelId, setModelId] = useState();
-  const [modelName, setModelName] = useState(modelField.value || null);
-  const [bodyName, setBodyName] = useState(bodyField.value || null);
   const [manufacturerCode, setManufacturerCode] = useState(manufacturerField.value || null);
   const [modelCode, setModelCode] = useState(modelField.value || null);
   const [bodyCode, setBodyCode] = useState(bodyField.value || null);
@@ -80,13 +77,10 @@ const VehicleFormAntd = ({
             autocatalogsUrl={params.autocatalogsUrl}
             showSearch
             onSelect={(value, _params) => {
-              setManufacturerName(_params?.text);
               setManufacturerCode(value);
+              setManufacturerName(_params?.text);
               setModelCode(null);
               setBodyCode(null);
-              setModelId(null);
-              setModelName(null);
-              setBodyName(null);
               if (manufacturerField.value !== value) {
                 params.setFinalEstimation && params.setFinalEstimation("");
                 model && form.onChange(model.name, null);
@@ -106,12 +100,9 @@ const VehicleFormAntd = ({
             autocatalogsUrl={params.autocatalogsUrl}
             showSearch
             resource={model.resource || ModelResource.get}
-            filters={{ manufacturerName, manufacturerCode }}
+            filters={{ manufacturerCode }}
             onSelect={(value, _params) => {
-              setModelId(_params?.id);
-              setModelName(_params?.text);
               setModelCode(value);
-              setBodyName(null);
               setBodyCode(null);
               if (modelField.value !== value) {
                 params.setFinalEstimation && params.setFinalEstimation("");
@@ -143,9 +134,8 @@ const VehicleFormAntd = ({
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             resource={body.resource || BodyResource.get}
-            filters={{ modelName, modelCode }}
+            filters={{ modelCode }}
             onSelect={(value, otherParams) => {
-              setBodyName(otherParams?.text);
               setBodyCode(value);
               _onChange(body.name, value);
             }}
@@ -159,11 +149,8 @@ const VehicleFormAntd = ({
             autocatalogsUrl={params.autocatalogsUrl}
             resource={modification.resource || ModificationResource.get}
             filters={{
-              modelName,
               modelCode,
               ...(bodyCode && { bodyCode }),
-              ...(bodyName && { bodyName }),
-              ...(modelId && { modelId }),
               ...params.modification?.filters,
             }}
             showSearch
@@ -195,7 +182,7 @@ const VehicleFormAntd = ({
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             resource={transmission.resource || TransmissionResource.get}
-            filters={{ modelName, modelCode }}
+            filters={{ modelCode }}
             onSelect={value => {
               _onChange(transmission.name, value);
             }}

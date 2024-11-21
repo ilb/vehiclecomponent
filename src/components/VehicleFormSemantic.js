@@ -32,10 +32,6 @@ const VehicleFormSemantic = ({
   const [manufacturerField] = useField(fields.manufacturer.name, {});
   const [modelField] = useField(fields.model.name, {});
   const [bodyField] = useField(fields.model.body, { value: null });
-  const [manufacturerName, setManufacturerName] = useState(manufacturerField.value || null);
-  const [modelId, setModelId] = useState();
-  const [modelName, setModelName] = useState(modelField.value || null);
-  const [bodyName, setBodyName] = useState(bodyField.value || null);
 
   const [manufacturerCode, setManufacturerCode] = useState(manufacturerField.value || null);
   const [modelCode, setModelCode] = useState(modelField.value || null);
@@ -73,7 +69,6 @@ const VehicleFormSemantic = ({
             autocatalogsUrl={params.autocatalogsUrl}
             showSearch
             onSelect={option => {
-              setManufacturerName(option.text);
               setManufacturerCode(option.value);
             }}
             resource={manufacturer.resource || ManufacturerResource.get}
@@ -87,10 +82,8 @@ const VehicleFormSemantic = ({
             autocatalogsUrl={params.autocatalogsUrl}
             showSearch
             resource={model.resource || ModelResource.get}
-            filters={{ manufacturerName, manufacturerCode }}
+            filters={{ manufacturerCode }}
             onSelect={option => {
-              setModelName(option.text);
-              setModelId(option.id);
               setModelCode(option.value);
             }}
             {...model}
@@ -102,9 +95,8 @@ const VehicleFormSemantic = ({
           <Dropdown
             autocatalogsUrl={params.autocatalogsUrl}
             resource={body.resource || BodyResource.get}
-            filters={{ modelName, modelCode }}
+            filters={{ modelCode }}
             onSelect={option => {
-              setBodyName(option.text);
               setBodyCode(option.value);
             }}
             {...body}
@@ -118,11 +110,8 @@ const VehicleFormSemantic = ({
             autocatalogsUrl={params.autocatalogsUrl}
             resource={modification.resource || ModificationResource.get}
             filters={{
-              modelName,
               modelCode,
-              ...(bodyName && { bodyName }),
               ...(bodyCode && { bodyCode }),
-              ...(modelId && { modelId }),
               ...params.modification?.filters,
             }}
             showSearch

@@ -8,9 +8,7 @@ export default class TransmissionResource extends Resource {
    * @returns {Promise<TransmissionResource[]>}
    */
   static async get(filters, autocatalogsUrl) {
-    const result = await Api.get(
-      autocatalogsUrl ? `${autocatalogsUrl}/transmissions` : "/autocatalogs/transmissions",
-    );
+    const result = await Api.get(`${autocatalogsUrl}/transmissions`);
 
     return TransmissionResource.map(result.body || []);
   }
