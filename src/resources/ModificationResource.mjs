@@ -12,7 +12,6 @@ export default class ModificationResource extends Resource {
 
     if (manufacturerCode && modelCode) {
       const result = await Api.get(`${autocatalogsUrl}/modifications`, {
-        withTransmission: true,
         manufacturerCode,
         modelCode,
         ...(year && { year }),
