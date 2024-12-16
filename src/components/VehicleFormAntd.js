@@ -72,7 +72,7 @@ const VehicleFormAntd = ({
   };
 
   useEffect(() => {
-    if (manufacturerModel && selectedModel) {
+    if (manufacturerModel && selectedModel.text && manufacturerName) {
       manufacturerModel.setManufacturerModelValue(`${manufacturerName} ${selectedModel.text}`);
     }
   }, [manufacturerName, selectedModel, manufacturerModel]);
@@ -124,7 +124,7 @@ const VehicleFormAntd = ({
           />
         </Col>
       )}
-      {manufacturerModel && !manufacturerModel.hidden && (
+      {manufacturerModel && manufacturerModel.name && (
         <Col span={24 / manufacturerModelCol}>
           <TextField
             onInput={event => {
