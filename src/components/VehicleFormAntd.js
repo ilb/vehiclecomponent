@@ -77,7 +77,7 @@ const VehicleFormAntd = ({
       setManufacturerCode(selectedManufacturer.value);
       setManufacturerName(selectedManufacturer.text);
     }
-  }, [selectedManufacturer])
+  }, [selectedManufacturer]);
 
   useEffect(() => {
     if (manufacturerModel && selectedModel?.text && manufacturerName) {
