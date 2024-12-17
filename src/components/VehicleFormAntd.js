@@ -49,6 +49,7 @@ const VehicleFormAntd = ({
   const [modelCode, setModelCode] = useState(modelField.value || null);
   const [bodyCode, setBodyCode] = useState(bodyField.value || null);
 
+  const [selectedManufacturer, setSelectedManufacturer] = useState(null);
   const [selectedModel, setSelectedModel] = useState(null);
 
   // Design params
@@ -72,7 +73,14 @@ const VehicleFormAntd = ({
   };
 
   useEffect(() => {
-    if (manufacturerModel && selectedModel.text && manufacturerName) {
+    if (selectedManufacturer && selectedManufacturer?.value && selectedManufacturer?.text) {
+      setManufacturerCode(selectedManufacturer.value);
+      setManufacturerName(selectedManufacturer.text);
+    }
+  }, [selectedManufacturer])
+
+  useEffect(() => {
+    if (manufacturerModel && selectedModel?.text && manufacturerName) {
       manufacturerModel.setManufacturerModelValue(`${manufacturerName} ${selectedModel.text}`);
     }
   }, [manufacturerName, selectedModel, manufacturerModel]);
@@ -85,8 +93,7 @@ const VehicleFormAntd = ({
             autocatalogsUrl={params.autocatalogsUrl}
             showSearch
             onSelect={(value, _params) => {
-              setManufacturerCode(value);
-              setManufacturerName(_params?.text);
+              setSelectedManufacturer({ value, text: _params?.text });
               setModelCode(null);
               setBodyCode(null);
               if (manufacturerField.value !== value) {
