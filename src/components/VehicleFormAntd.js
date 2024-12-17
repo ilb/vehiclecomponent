@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, n/no-missing-import, no-underscore-dangle, no-unused-expressions, iconicompany/avoid-naming -- Отключаем eslint no-unused-vars, n/no-missing-import, no-underscore-dangle, no-unused-expressions */
 import Col from "antd/lib/grid/col";
 import Row from "antd/lib/grid/row";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useField, useForm } from "uniforms";
 import { AutoField, TextField } from "uniforms-antd";
 
@@ -49,6 +49,9 @@ const VehicleFormAntd = ({
   const [modelCode, setModelCode] = useState(modelField.value || null);
   const [bodyCode, setBodyCode] = useState(bodyField.value || null);
 
+  const [selectedManufacturer, setSelectedManufacturer] = useState(null);
+  const [selectedModel, setSelectedModel] = useState(null);
+
   // Design params
   const manufacturerCol = manufacturer?.col || 2;
   const modelCol = model?.col || 2;
@@ -69,6 +72,19 @@ const VehicleFormAntd = ({
     }
   };
 
+  useEffect(() => {
+    if (selectedManufacturer && selectedManufacturer?.value && selectedManufacturer?.text) {
+      setManufacturerCode(selectedManufacturer.value);
+      setManufacturerName(selectedManufacturer.text);
+    }
+  }, [selectedManufacturer]);
+
+  useEffect(() => {
+    if (manufacturerModel && selectedModel?.text && manufacturerName) {
+      manufacturerModel.setManufacturerModelValue(`${manufacturerName} ${selectedModel.text}`);
+    }
+  }, [manufacturerName, selectedModel, manufacturerModel]);
+
   return (
     <Row gutter={gutter}>
       {manufacturer && (
@@ -77,8 +93,7 @@ const VehicleFormAntd = ({
             autocatalogsUrl={params.autocatalogsUrl}
             showSearch
             onSelect={(value, _params) => {
-              setManufacturerCode(value);
-              setManufacturerName(_params?.text);
+              setSelectedManufacturer({ value, text: _params?.text });
               setModelCode(null);
               setBodyCode(null);
               if (manufacturerField.value !== value) {
@@ -104,12 +119,9 @@ const VehicleFormAntd = ({
             onSelect={(value, _params) => {
               setModelCode(value);
               setBodyCode(null);
+              setSelectedModel({ value, text: _params?.text });
               if (modelField.value !== value) {
                 params.setFinalEstimation && params.setFinalEstimation("");
-                manufacturerModel &&
-                  manufacturerModel.setManufacturerModelValue(
-                    `${manufacturerName} ${_params?.text}`,
-                  );
                 body && form.onChange(body.name, null);
                 modification && form.onChange(modification.name, null);
                 transmission && form.onChange(transmission.name, null);
@@ -119,7 +131,7 @@ const VehicleFormAntd = ({
           />
         </Col>
       )}
-      {manufacturerModel && (
+      {manufacturerModel && manufacturerModel.name && (
         <Col span={24 / manufacturerModelCol}>
           <TextField
             onInput={event => {
