@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars, no-param-reassign, unicorn/prefer-array-some -- Отключаем eslint no-unused-vars и no-param-reassign */
+/* eslint-disable no-unused-vars, unicorn/prefer-array-some -- Отключаем eslint no-unused-vars и no-param-reassign */
 import { useEffect, useState } from "react";
 import { connectField } from "uniforms";
 import { SelectField } from "uniforms-antd";
@@ -164,4 +164,4 @@ const DropdownAntd = ({
 };
 
 export default connectField(DropdownAntd);
-/* eslint-enable no-unused-vars, no-param-reassign, unicorn/prefer-array-some -- Возвращаем названия переменных */
+/* eslint-enable no-unused-vars, unicorn/prefer-array-some -- Возвращаем названия переменных */
