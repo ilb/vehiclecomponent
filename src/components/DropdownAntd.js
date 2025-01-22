@@ -85,16 +85,15 @@ const DropdownAntd = ({
   };
 
   useEffect(() => {
-    if (resource && !filters) {
-      updateOptions().catch(console.error);
+    if (resource) {
+      if (!filters || filtersIsApplied()) {
+        updateOptions().catch(console.error);
+      }
     }
-  }, [resource]);
+  }, [resource, JSON.stringify(filters)]);
 
   useEffect(() => {
-    filters = { ...filters, query };
-    if (filters && filtersHasBeenChanged() && filtersIsApplied() && !isLoadDatata) {
-      updateOptions().catch(console.error);
-    }
+    setPrevFilters({ ...filters, query });
   }, [filters, query]);
 
   useEffect(() => {
