@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars, no-param-reassign, unicorn/prefer-array-some -- Отключаем eslint no-unused-vars и no-param-reassign */
+/* eslint-disable no-unused-vars, unicorn/prefer-array-some -- Отключаем eslint no-unused-vars и no-param-reassign */
 import { useEffect, useState } from "react";
 import { connectField } from "uniforms";
 import { SelectField } from "uniforms-antd";
@@ -85,16 +85,15 @@ const DropdownAntd = ({
   };
 
   useEffect(() => {
-    if (resource && !filters) {
-      updateOptions().catch(console.error);
+    if (resource) {
+      if (!filters || filtersIsApplied()) {
+        updateOptions().catch(console.error);
+      }
     }
-  }, [resource]);
+  }, [resource, JSON.stringify(filters)]);
 
   useEffect(() => {
-    filters = { ...filters, query };
-    if (filters && filtersHasBeenChanged() && filtersIsApplied() && !isLoadDatata) {
-      updateOptions().catch(console.error);
-    }
+    setPrevFilters({ ...filters, query });
   }, [filters, query]);
 
   useEffect(() => {
@@ -165,4 +164,4 @@ const DropdownAntd = ({
 };
 
 export default connectField(DropdownAntd);
-/* eslint-enable no-unused-vars, no-param-reassign, unicorn/prefer-array-some -- Возвращаем названия переменных */
+/* eslint-enable no-unused-vars, unicorn/prefer-array-some -- Возвращаем названия переменных */
