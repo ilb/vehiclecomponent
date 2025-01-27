@@ -72,6 +72,13 @@ const VehicleFormAntd = ({
     }
   };
 
+  /**
+   * @param {string} manufacturerText
+   * @param {string} modelText
+   * @returns {string}
+   */
+  const buildManufacturerModel = (manufacturerText, modelText) => `${manufacturerText} ${modelText}`;
+
   useEffect(() => {
     if (selectedManufacturer && selectedManufacturer?.value && selectedManufacturer?.text) {
       setManufacturerCode(selectedManufacturer.value);
@@ -81,7 +88,8 @@ const VehicleFormAntd = ({
 
   useEffect(() => {
     if (manufacturerModel && selectedModel?.text && manufacturerName) {
-      manufacturerModel.setManufacturerModelValue(`${manufacturerName} ${selectedModel.text}`);
+      manufacturerModel.setManufacturerModelValue(buildManufacturerModel(manufacturerName, selectedModel.text));
+      form.onChange(manufacturerModel.name, buildManufacturerModel(manufacturerName, selectedModel.text));
     }
   }, [manufacturerName, selectedModel, manufacturerModel]);
 
