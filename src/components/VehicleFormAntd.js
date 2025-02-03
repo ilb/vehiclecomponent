@@ -51,6 +51,7 @@ const VehicleFormAntd = ({
 
   const [selectedManufacturer, setSelectedManufacturer] = useState(null);
   const [selectedModel, setSelectedModel] = useState(null);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   // Design params
   const manufacturerCol = manufacturer?.col || 2;
@@ -86,12 +87,28 @@ const VehicleFormAntd = ({
     }
   }, [selectedManufacturer]);
 
-  useEffect(() => {
-    if (manufacturerModel && selectedModel?.text && manufacturerName) {
-      manufacturerModel.setManufacturerModelValue(buildManufacturerModel(manufacturerName, selectedModel.text));
-      form.onChange(manufacturerModel.name, buildManufacturerModel(manufacturerName, selectedModel.text));
+  /**
+   * @param {string} manufacturerText
+   * @param {string} modelText
+   * @returns {void}
+   */
+  const manufacturerModelValue = (manufacturerText, modelText) => {
+    if (manufacturerModel) {
+
+      if (isInitialLoad && manufacturerModel.value) {
+        setIsInitialLoad(false);
+        return;
+      }
+
+      if (modelText && manufacturerText) {
+        const newManufacturerModelValue = buildManufacturerModel(manufacturerText, modelText);
+
+        manufacturerModel.setManufacturerModelValue(newManufacturerModelValue);
+        form.onChange(manufacturerModel.name, newManufacturerModelValue);
+      }
+      setIsInitialLoad(false);
     }
-  }, [manufacturerName, selectedModel, manufacturerModel]);
+  };
 
   return (
     <Row gutter={gutter}>
@@ -134,6 +151,7 @@ const VehicleFormAntd = ({
                 modification && form.onChange(modification.name, null);
                 transmission && form.onChange(transmission.name, null);
               }
+              manufacturerModelValue(manufacturerName, _params?.text);
             }}
             {...model}
           />
